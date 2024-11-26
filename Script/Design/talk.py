@@ -1,7 +1,7 @@
 import random
 from types import FunctionType
 from Script.Core import cache_control, game_type, value_handle, get_text, constant
-from Script.Design import map_handle, handle_premise
+from Script.Design import map_handle, handle_premise, handle_premise_place
 from Script.UI.Moudle import draw
 from Script.Config import normal_config, game_config
 
@@ -30,7 +30,7 @@ def handle_talk(character_id: int):
         character_id != 0 and
         character_data.sp_flag.is_follow == 1 and
         behavior_id == constant.Behavior.MOVE and
-        (handle_premise.handle_player_leave_scene(0) or handle_premise.handle_target_come_scene(character_id))
+        (handle_premise_place.handle_player_leave_scene(0) or handle_premise_place.handle_target_come_scene(character_id))
     ):
         # print(f"debug 智能跟随模式下，{character_data.name}在跟随博士，不显示移动文本")
         return
@@ -39,7 +39,7 @@ def handle_talk(character_id: int):
         character_id == 0 and
         target_data.sp_flag.is_follow == 1 and
         behavior_id == constant.Behavior.MOVE and
-        (handle_premise.handle_player_leave_scene(0) or handle_premise.handle_target_come_scene(0))
+        (handle_premise_place.handle_player_leave_scene(0) or handle_premise_place.handle_target_come_scene(0))
     ):
         # print(f"debug 智能跟随模式下，博士离开时，跟随的角色{target_data.name}不显示送别文本")
         return
@@ -182,8 +182,8 @@ def handle_talk_draw(character_id: int, now_talk_data: dict, second_behavior_id 
         # 地文
         else:
             # 如果启用了文本生成ai
-            cache.ai_chat_setting.setdefault(1, 0)
-            if cache.ai_chat_setting[1]:
+            cache.ai_setting.ai_chat_setting.setdefault(1, 0)
+            if cache.ai_setting.ai_chat_setting[1]:
                 now_draw = draw.LineFeedWaitDraw()
                 now_talk_text = chat_ai_setting.judge_use_text_ai(character_id, now_behavior_id, now_talk_text)
                 now_draw.width = normal_config.config_normal.text_width
@@ -422,34 +422,46 @@ def code_text_to_draw_text(now_talk: str, character_id: int):
     if character_id == 0 and len(target_data.cloth.cloth_wear[6]):
         for BraId in target_data.cloth.cloth_wear[6]:
             target_bra_name += game_config.config_clothing_tem[BraId].name
+    if target_bra_name == "":
+        target_bra_name = _("没有穿胸罩的乳房")
     target_ski_name = ""
     if character_id == 0 and len(target_data.cloth.cloth_wear[8]):
         for SkiId in target_data.cloth.cloth_wear[8]:
             target_ski_name += game_config.config_clothing_tem[SkiId].name
+    if target_ski_name == "":
+        target_ski_name = _("没有穿裙子的胯部")
     target_pan_name = ""
     if character_id == 0 and len(target_data.cloth.cloth_wear[9]):
         for PanId in target_data.cloth.cloth_wear[9]:
             target_pan_name += game_config.config_clothing_tem[PanId].name
     elif player_data.behavior.pan_name != "":
         target_pan_name = player_data.behavior.pan_name
+    if target_pan_name == "":
+        target_pan_name = _("没有穿内裤的阴部")
     target_soc_name = ""
     if character_id == 0 and len(target_data.cloth.cloth_wear[10]):
         for SocId in target_data.cloth.cloth_wear[10]:
             target_soc_name += game_config.config_clothing_tem[SocId].name
     elif player_data.behavior.socks_name != "":
         target_soc_name = player_data.behavior.socks_name
+    if target_soc_name == "":
+        target_soc_name = _("没有穿袜子的双腿")
     pan_name = ""
     if character_id != 0 and len(character_data.cloth.cloth_wear[9]):
         for PanId in character_data.cloth.cloth_wear[9]:
             pan_name += game_config.config_clothing_tem[PanId].name
     elif player_data.behavior.pan_name != "":
         pan_name = player_data.behavior.pan_name
+    if pan_name == "":
+        pan_name = _("没有穿内裤的阴部")
     socks_name = ""
     if character_id != 0 and len(character_data.cloth.cloth_wear[10]):
         for SocId in character_data.cloth.cloth_wear[10]:
             socks_name += game_config.config_clothing_tem[SocId].name
     elif player_data.behavior.socks_name != "":
         socks_name = player_data.behavior.socks_name
+    if socks_name == "":
+        socks_name = _("没有穿袜子的双腿")
 
     # 最后总结转化
     now_talk_text = now_talk_text.format(

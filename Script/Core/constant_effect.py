@@ -6,9 +6,9 @@ class BehaviorEffect:
     OPTION_FATER = 10001
     """ 系统量_基础 开启子选项面板 """
     OPEN_INSTRUCT_FILTER_H = 10003
-    """ 系统量_基础 开启H面板过滤器 """
+    """ 系统量_基础 开启H面板过滤器（已弃用） """
     CLOSE_INSTRUCT_FILTER_H = 10004
-    """ 系统量_基础 关闭H面板过滤器 """
+    """ 系统量_基础 关闭H面板过滤器（已弃用） """
     ADD_THIS_EVENT_TO_TRIGGERED_RECORD = 10008
     """ 系统量_基础 将玩家当前触发的事件加入已触发记录 """
     GROUP_SEX_MODE_ON = 10010
@@ -209,21 +209,34 @@ class BehaviorEffect:
     TARGET_LUBRICATION_ADJUST_ADD_PAIN = 121
     """ 属性_状态特殊补正 根据交互对象的润滑情况对其进行苦痛调整 """
     TARGET_V_ADJUST_ADD_PAIN = 122
-    """ 属性_状态特殊补正 根据交互对象的V属性(润滑+扩张+阴茎大小)对其进行苦痛调整 """
+    """ 属性_状态特殊补正 根据交互对象的V属性(润滑+腰技+扩张+阴茎大小)对其进行苦痛调整 """
     TARGET_A_ADJUST_ADD_PAIN = 123
-    """ 属性_状态特殊补正 根据交互对象的A属性(润滑+扩张+阴茎大小)对其进行苦痛调整 """
+    """ 属性_状态特殊补正 根据交互对象的A属性(润滑+腰技+扩张+阴茎大小)对其进行苦痛调整 """
     TARGET_U_ADJUST_ADD_PAIN = 124
-    """ 属性_状态特殊补正 根据交互对象的U属性(润滑+扩张+阴茎大小)对其进行苦痛调整 """
+    """ 属性_状态特殊补正 根据交互对象的U属性(润滑+腰技+扩张+阴茎大小)对其进行苦痛调整 """
     TARGET_W_ADJUST_ADD_PAIN = 125
-    """ 属性_状态特殊补正 根据交互对象的W属性(润滑+扩张+阴茎大小)对其进行苦痛调整 """
+    """ 属性_状态特殊补正 根据交互对象的W属性(润滑+腰技+扩张+阴茎大小)对其进行苦痛调整 """
     TARGET_V_ADJUST_ADD_BY_SEX = 131
-    """ 属性_状态特殊补正 根据发起者的技巧+阴茎大小对交互目标进行V快、欲情调整 """
+    """ 属性_状态特殊补正 根据发起者的技巧+腰技+阴茎大小对交互目标进行V快、欲情调整 """
     TARGET_A_ADJUST_ADD_BY_SEX = 132
-    """ 属性_状态特殊补正 根据发起者的技巧+阴茎大小对交互目标进行A快、欲情调整 """
+    """ 属性_状态特殊补正 根据发起者的技巧+腰技+阴茎大小对交互目标进行A快、欲情调整 """
     TARGET_U_ADJUST_ADD_BY_SEX = 133
-    """ 属性_状态特殊补正 根据发起者的技巧+阴茎大小对交互目标进行U快、欲情调整 """
+    """ 属性_状态特殊补正 根据发起者的技巧+腰技+阴茎大小对交互目标进行U快、欲情调整 """
     TARGET_W_ADJUST_ADD_BY_SEX = 134
-    """ 属性_状态特殊补正 根据发起者的技巧+阴茎大小对交互目标进行W快、欲情调整 """
+    """ 属性_状态特殊补正 根据发起者的技巧+腰技+阴茎大小对交互目标进行W快、欲情调整 """
+
+    FINGER_TECH_ADD_PL_P_ADJUST = 141
+    """ 属性_状态特殊补正 根据交互对象的技巧+指技对发起者进行P快调整 """
+    TONGUE_TECH_ADD_PL_P_ADJUST = 142
+    """ 属性_状态特殊补正 根据交互对象的技巧+舌技对发起者进行P快调整 """
+    FEET_TECH_ADD_PL_P_ADJUST = 143
+    """ 属性_状态特殊补正 根据交互对象的技巧+足技对发起者进行P快调整 """
+    BREAST_TECH_ADD_PL_P_ADJUST = 144
+    """ 属性_状态特殊补正 根据交互对象的技巧+胸技对发起者进行P快调整 """
+    VAGINA_TECH_ADD_PL_P_ADJUST = 145
+    """ 属性_状态特殊补正 根据交互对象的技巧+膣技对发起者进行P快调整 """
+    ANUS_TECH_ADD_PL_P_ADJUST = 146
+    """ 属性_状态特殊补正 根据交互对象的技巧+肛技对发起者进行P快调整 """
 
     LOW_OBSCENITY_FAILED_ADJUST = 151
     """ 属性_失败状态 轻度性骚扰失败的加反感、加愤怒、降好感度修正 """
@@ -470,6 +483,8 @@ class BehaviorEffect:
     """ 属性_经验 增加1被催眠姦经验 """
     TARGET_ADD_1_be_Hypnosis_Sex_EXPERIENCE = 360
     """ 属性_经验 交互对象增加1被催眠姦经验 """
+    TARGET_ADD_1_CLOTH_JOB_EXPERIENCE = 361
+    """ 属性_经验 交互对象增加1服装交经验 """
 
     DIRTY_RESET = 401
     """ 属性_结构体 污浊结构体归零 """
@@ -633,9 +648,9 @@ class BehaviorEffect:
     TIME_STOP_ORGASM_RELEASE = 527
     """ 指令_专用结算 （解除时停）所有角色变为时停解放状态，将时停绝顶计数转化为绝顶 """
     END_H_ADD_HPMP_MAX = 528
-    """ 指令_专用结算 （结束H）自己和交互对象根据本次H中的绝顶次数增加体力气力上限 """
+    """ 指令_专用结算 （结束H）自己和交互对象根据本次H中的绝顶次数增加体力气力上限，玩家根据射精次数增加精液量上限 """
     GROUP_SEX_END_H_ADD_HPMP_MAX = 529
-    """ 指令_专用结算 （多P结束H）在场全部角色根据本次H中的绝顶次数增加体力气力上限 """
+    """ 指令_专用结算 （多P结束H）在场全部角色根据本次H中的绝顶次数增加体力气力上限，玩家根据射精次数增加精液量上限 """
     GROUP_SEX_FAIL_ADD_JUST = 530
     """ 指令_专用结算 （多P失败）在场全部角色减体力气力，拒绝者进行邀请H失败结算 """
     BOARD_GAME_WIN_ADD_ADJUST = 532
@@ -679,18 +694,22 @@ class BehaviorEffect:
     """ 属性_服装 自己穿回H时脱掉的衣服 """
     SCENE_ALL_CHARACTERS_CLOTH_BACK = 636
     """ 属性_服装 场景内所有角色穿回H时脱掉的衣服 """
-    LOCKER_CLOTH_RESET = 641
-    """ 属性_服装 衣柜里的衣服清零 """
-    WEAR_TO_LOCKER = 642
-    """ 属性_服装 身上首饰以外的衣服转移到柜子里 """
-    LOCKER_TO_WEAR = 643
-    """ 属性_服装 衣柜里的衣服转移到身上 """
+    LOCKER_CLOTH_IN_SHOWER_RESET = 641
+    """ 属性_服装 大浴场衣柜里的衣服清零 """
+    WEAR_TO_SHOWER_LOCKER = 642
+    """ 属性_服装 身上首饰以外的衣服转移到大浴场柜子里 """
+    SHOWER_LOCKER_TO_WEAR = 643
+    """ 属性_服装 大浴场衣柜里的衣服转移到身上 """
     GET_SWIM_CLOTH = 644
     """ 属性_服装 清零其他衣服并换上泳衣 """
     WEAR_CLOTH_OFF_MOST = 645
     """ 属性_服装 脱掉大部分衣服（保留首饰等） """
-    FOOT_CLOTH_TO_LOCKER = 646
-    """ 属性_服装 袜子和鞋子转移到衣柜里 """
+    FOOT_CLOTH_TO_SHOWER_LOCKER = 646
+    """ 属性_服装 袜子和鞋子转移到大浴场衣柜里 """
+    SHOWER_LOCKER_TO_DORMITORY_LOCKER = 647
+    """ 属性_服装 大浴场衣柜里的衣服转移到宿舍衣柜 """
+    CLEAN_LOCKER_CLOTH_SEMEN = 648
+    """ 属性_服装 清理衣柜里的衣服精液 """
     UP_AND_BRA_TO_TEM = 651
     """ 属性_服装 自己的上衣和胸罩转移到临时脱下 """
     DOWN_AND_PAN_TO_TEM = 652
@@ -714,44 +733,72 @@ class BehaviorEffect:
     MOVE_TO_PRE_SCENE = 761
     """ 系统量_地点 角色移动至前一场景 """
 
-    PENIS_IN_T_RESET = 801
-    """ H_阴茎位置 当前阴茎位置为交互对象_双方归零 """
-    PENIS_IN_T_HAIR = 802
-    """ H_阴茎位置 当前阴茎位置为交互对象_发交中 """
-    PENIS_IN_T_FACE = 803
-    """ H_阴茎位置 当前阴茎位置为交互对象_阴茎蹭脸中 """
-    PENIS_IN_T_MOUSE = 804
-    """ H_阴茎位置 当前阴茎位置为交互对象_口交中 """
-    PENIS_IN_T_BREAST = 805
-    """ H_阴茎位置 当前阴茎位置为交互对象_乳交中 """
-    PENIS_IN_T_AXILLA = 806
-    """ H_阴茎位置 当前阴茎位置为交互对象_腋交中 """
-    PENIS_IN_T_HAND = 807
-    """ H_阴茎位置 当前阴茎位置为交互对象_手交中 """
-    PENIS_IN_T_VAGINA = 808
-    """ H_阴茎位置 当前阴茎位置为交互对象_V插入中 """
-    PENIS_IN_T_WOMB = 809
-    """ H_阴茎位置 当前阴茎位置为交互对象_W插入中 """
-    PENIS_IN_T_ANAL = 810
-    """ H_阴茎位置 当前阴茎位置为交互对象_A插入中 """
-    PENIS_IN_T_URETHRAL = 811
-    """ H_阴茎位置 当前阴茎位置为交互对象_U插入中 """
-    PENIS_IN_T_LEG = 812
-    """ H_阴茎位置 当前阴茎位置为交互对象_腿交中 """
-    PENIS_IN_T_FOOT = 813
-    """ H_阴茎位置 当前阴茎位置为交互对象_足交中 """
-    PENIS_IN_T_TAIL = 814
-    """ H_阴茎位置 当前阴茎位置为交互对象_尾交中 """
-    PENIS_IN_T_HORN = 815
-    """ H_阴茎位置 当前阴茎位置为交互对象_阴茎蹭角中 """
-    PENIS_IN_T_EARS = 816
-    """ H_阴茎位置 当前阴茎位置为交互对象_阴茎蹭耳朵中 """
-    SCENE_ALL_CHARACTERS_PENIS_IN_RESET = 821
+    SCENE_ALL_CHARACTERS_PENIS_IN_RESET = 800
     """ H_阴茎位置 场景内所有角色的当前阴茎位置归零 """
-    CANCEL_PENIS_IN_FACE_OR_MOUSE = 831
+    PENIS_IN_T_RESET = 801
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_双方归零 """
+    PENIS_IN_T_HAIR = 802
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_发交中 """
+    PENIS_IN_T_FACE = 803
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_阴茎蹭脸中 """
+    PENIS_IN_T_MOUSE = 804
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_口交中 """
+    PENIS_IN_T_BREAST = 805
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_乳交中 """
+    PENIS_IN_T_AXILLA = 806
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_腋交中 """
+    PENIS_IN_T_HAND = 807
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_手交中 """
+    PENIS_IN_T_VAGINA = 808
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_V插入中 """
+    PENIS_IN_T_WOMB = 809
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_W插入中 """
+    PENIS_IN_T_ANAL = 810
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_A插入中 """
+    PENIS_IN_T_URETHRAL = 811
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_U插入中 """
+    PENIS_IN_T_LEG = 812
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_腿交中 """
+    PENIS_IN_T_FOOT = 813
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_足交中 """
+    PENIS_IN_T_TAIL = 814
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_尾交中 """
+    PENIS_IN_T_HORN = 815
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_阴茎蹭角中 """
+    PENIS_IN_T_EARS = 816
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_阴茎蹭耳朵中 """
+    PENIS_IN_T_HAT = 821
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_帽子交中 """
+    PENIS_IN_T_GLASSES = 822
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_眼镜交中 """
+    PENIS_IN_T_EAR_ORNAMENT = 823
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_耳饰交中 """
+    PENIS_IN_T_NECK_ORNAMENT = 824
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_脖饰交中 """
+    PENIS_IN_T_MOUTH_ORNAMENT = 825
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_口罩交中 """
+    PENIS_IN_T_TOP = 826
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_上衣交中 """
+    PENIS_IN_T_CORSET = 827
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_胸衣交中 """
+    PENIS_IN_T_GLOVES = 828
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_手套交中 """
+    PENIS_IN_T_SKIRT = 829
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_裙子交中 """
+    PENIS_IN_T_UNDERWEAR = 830
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_内裤交中 """
+    PENIS_IN_T_SOCKS = 831
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_袜子交中 """
+    PENIS_IN_T_SHOES = 832
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_鞋子交中 """
+    PENIS_IN_T_WEAPONS = 833
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_武器交中 """
+    PENIS_IN_T_TROUSERS = 834
+    """ H_阴茎位置 改变当前阴茎位置为交互对象_裤子交中 """
+    CANCEL_PENIS_IN_FACE_OR_MOUSE = 840
     """ H_阴茎位置 取消为阴茎位置交互对象_阴茎蹭脸中和口交中 """
 
-    H_IN_LOVE_HOTEL_TO_FALSE = 841
+    H_IN_LOVE_HOTEL_TO_FALSE = 871
     """ H_地点 取消自己和交互对象正在爱情旅馆中H的状态 """
 
     ITEM_OFF = 901
@@ -1023,7 +1070,7 @@ class SecondEffect:
     ADD_SMALL_C_FEEL = 239
     """ 增加少量Ｃ快（C感补正） """
     ADD_SMALL_P_FEEL = 240
-    """ 增加少量射精值（P感补正） """
+    """ 增加少量玩家射精值（P感补正） """
     ADD_SMALL_V_FEEL = 241
     """ 增加少量Ｖ快（V感补正） """
     ADD_SMALL_A_FEEL = 242
@@ -1176,7 +1223,7 @@ class SecondEffect:
     """ 结算多重绝顶(快乐+屈服) """
 
     PENIS_IN_T_RESET = 501
-    """ 当前阴茎位置为交互对象_双方归零 """
+    """ 改变当前阴茎位置为交互对象_双方归零 """
 
     GIVE_PAN_IN_DAY_FIRST_MEET = 511
     """ 在每日招呼时上交今天的内裤 """
@@ -1199,3 +1246,19 @@ class SecondEffect:
     """ 属性_经验 增加1U扩张经验 """
     ADD_1_EXPAND_W_EXPERIENCE = 608
     """ 属性_经验 增加1W扩张经验 """
+    ADD_1_N_EXPERIENCE = 610
+    """ 属性_经验 自己增加1N经验 """
+    ADD_1_B_EXPERIENCE = 611
+    """ 属性_经验 自己增加1B经验 """
+    ADD_1_C_EXPERIENCE = 612
+    """ 属性_经验 自己增加1C经验 """
+    ADD_1_P_EXPERIENCE = 613
+    """ 属性_经验 自己增加1P经验 """
+    ADD_1_V_EXPERIENCE = 614
+    """ 属性_经验 自己增加1V经验 """
+    ADD_1_A_EXPERIENCE = 615
+    """ 属性_经验 自己增加1A经验 """
+    ADD_1_U_EXPERIENCE = 616
+    """ 属性_经验 自己增加1U经验 """
+    ADD_1_W_EXPERIENCE = 617
+    """ 属性_经验 自己增加1W经验 """

@@ -557,6 +557,17 @@ class InstructType:
     """ 颜色 """
 
 
+class Instruct_Sex_Type:
+    """ 指令类型配置 """
+
+    cid: int
+    """ 指令类型id """
+    name: str
+    """ 名字 """
+    color: str
+    """ 颜色 """
+
+
 class Item:
     """ 道具配置数据 """
 
@@ -564,8 +575,12 @@ class Item:
     """ 道具id """
     name: str
     """ 道具名 """
+    type: str
+    """ 类型 """
     tag: str
     """ 标签 """
+    level: int
+    """ 等级 """
     price: int
     """ 价格 """
     effect: int
@@ -1049,7 +1064,7 @@ class WorkType:
     place: str
     """ 工作地点 """
     tag: int
-    """ 标签 """
+    """ 标签(1为灰色显示，2为特殊解锁不直接显示) """
     need: str
     """ 必要条件 """
     describe: str
@@ -1080,7 +1095,6 @@ class Talk:
     """ 前提id """
     context: str
     """ 口上内容 """
-
 
 
 class TargetEffect:

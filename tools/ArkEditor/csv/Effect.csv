@@ -3,8 +3,8 @@ cid,effect_name,effect_type,effect
 
 9999,NOTHING,系统量_基础,什么都没有的空结算
 10001,OPTION_FATER,系统量_基础,开启子选项面板
-10003,OPEN_INSTRUCT_FILTER_H,系统量_基础,开启H面板过滤器
-10004,CLOSE_INSTRUCT_FILTER_H,系统量_基础,关闭H面板过滤器
+10003,OPEN_INSTRUCT_FILTER_H,系统量_基础,开启H面板过滤器（已弃用）
+10004,CLOSE_INSTRUCT_FILTER_H,系统量_基础,关闭H面板过滤器（已弃用）
 10008,ADD_THIS_EVENT_TO_TRIGGERED_RECORD,系统量_基础,将玩家当前触发的事件加入已触发记录
 10010,GROUP_SEX_MODE_ON,系统量_基础,开启多P模式
 10011,GROUP_SEX_MODE_OFF,系统量_基础,关闭多P模式
@@ -107,14 +107,21 @@ cid,effect_name,effect_type,effect
 117,TECH_ADD_W_ADJUST,属性_状态特殊补正,根据发起者的技巧技能和交互对象的感度，对交互对象进行W快、欲情调整
 120,TECH_ADD_PL_P_ADJUST,属性_状态特殊补正,根据交互对象的技巧技能对发起者进行P快调整
 121,TARGET_LUBRICATION_ADJUST_ADD_PAIN,属性_状态特殊补正,根据交互对象的润滑情况对其进行苦痛调整
-122,TARGET_V_ADJUST_ADD_PAIN,属性_状态特殊补正,根据交互对象的V属性(润滑+扩张+阴茎大小)对其进行苦痛调整
-123,TARGET_A_ADJUST_ADD_PAIN,属性_状态特殊补正,根据交互对象的A属性(润滑+扩张+阴茎大小)对其进行苦痛调整
-124,TARGET_U_ADJUST_ADD_PAIN,属性_状态特殊补正,根据交互对象的U属性(润滑+扩张+阴茎大小)对其进行苦痛调整
-125,TARGET_W_ADJUST_ADD_PAIN,属性_状态特殊补正,根据交互对象的W属性(润滑+扩张+阴茎大小)对其进行苦痛调整
-131,TARGET_V_ADJUST_ADD_BY_SEX,属性_状态特殊补正,根据发起者的技巧+阴茎大小对交互目标进行V快、欲情调整
-132,TARGET_A_ADJUST_ADD_BY_SEX,属性_状态特殊补正,根据发起者的技巧+阴茎大小对交互目标进行A快、欲情调整
-133,TARGET_U_ADJUST_ADD_BY_SEX,属性_状态特殊补正,根据发起者的技巧+阴茎大小对交互目标进行U快、欲情调整
-134,TARGET_W_ADJUST_ADD_BY_SEX,属性_状态特殊补正,根据发起者的技巧+阴茎大小对交互目标进行W快、欲情调整
+122,TARGET_V_ADJUST_ADD_PAIN,属性_状态特殊补正,根据交互对象的V属性(润滑+腰技+扩张+阴茎大小)对其进行苦痛调整
+123,TARGET_A_ADJUST_ADD_PAIN,属性_状态特殊补正,根据交互对象的A属性(润滑+腰技+扩张+阴茎大小)对其进行苦痛调整
+124,TARGET_U_ADJUST_ADD_PAIN,属性_状态特殊补正,根据交互对象的U属性(润滑+腰技+扩张+阴茎大小)对其进行苦痛调整
+125,TARGET_W_ADJUST_ADD_PAIN,属性_状态特殊补正,根据交互对象的W属性(润滑+腰技+扩张+阴茎大小)对其进行苦痛调整
+131,TARGET_V_ADJUST_ADD_BY_SEX,属性_状态特殊补正,根据发起者的技巧+腰技+阴茎大小对交互目标进行V快、欲情调整
+132,TARGET_A_ADJUST_ADD_BY_SEX,属性_状态特殊补正,根据发起者的技巧+腰技+阴茎大小对交互目标进行A快、欲情调整
+133,TARGET_U_ADJUST_ADD_BY_SEX,属性_状态特殊补正,根据发起者的技巧+腰技+阴茎大小对交互目标进行U快、欲情调整
+134,TARGET_W_ADJUST_ADD_BY_SEX,属性_状态特殊补正,根据发起者的技巧+腰技+阴茎大小对交互目标进行W快、欲情调整
+
+141,FINGER_TECH_ADD_PL_P_ADJUST,属性_状态特殊补正,根据交互对象的技巧+指技对发起者进行P快调整
+142,TONGUE_TECH_ADD_PL_P_ADJUST,属性_状态特殊补正,根据交互对象的技巧+舌技对发起者进行P快调整
+143,FEET_TECH_ADD_PL_P_ADJUST,属性_状态特殊补正,根据交互对象的技巧+足技对发起者进行P快调整
+144,BREAST_TECH_ADD_PL_P_ADJUST,属性_状态特殊补正,根据交互对象的技巧+胸技对发起者进行P快调整
+145,VAGINA_TECH_ADD_PL_P_ADJUST,属性_状态特殊补正,根据交互对象的技巧+膣技对发起者进行P快调整
+146,ANUS_TECH_ADD_PL_P_ADJUST,属性_状态特殊补正,根据交互对象的技巧+肛技对发起者进行P快调整
 
 151,LOW_OBSCENITY_FAILED_ADJUST,属性_失败状态,轻度性骚扰失败的加反感、加愤怒、降好感度修正
 152,HIGH_OBSCENITY_FAILED_ADJUST,属性_失败状态,重度性骚扰失败的加反感、加愤怒、降好感度、降信赖修正
@@ -239,6 +246,7 @@ cid,effect_name,effect_type,effect
 358,ADD_1_Hypnosis_Sex_EXPERIENCE,属性_经验,增加1催眠姦经验
 359,ADD_1_be_Hypnosis_Sex_EXPERIENCE,属性_经验,增加1被催眠姦经验
 360,TARGET_ADD_1_be_Hypnosis_Sex_EXPERIENCE,属性_经验,交互对象增加1被催眠姦经验
+361,TARGET_ADD_1_CLOTH_JOB_EXPERIENCE,属性_经验,交互对象增加1服装交经验
 
 401,DIRTY_RESET,属性_结构体,污浊结构体归零
 402,ASSISTANT_RESET,属性_结构体,助理结构体归零
@@ -292,6 +300,7 @@ cid,effect_name,effect_type,effect
 496,TARGET_ANGRY_WITH_PLAYER_FLAG_TO_0,属性_特殊flag,交互对象清零对玩家的愤怒状态
 497,MASTUREBATE_FLAG_TO_0,属性_特殊flag,自身清零要自慰状态
 498,MASTUREBATE_BEFORE_SLEEP_FLAG_TO_0,属性_特殊flag,自身清零要睡前自慰状态
+499,MASTUREBATE_BEFORE_SLEEP_FLAG_TO_2,属性_特殊flag,自身变为已睡前自慰状态
 
 501,TALK_ADD_ADJUST,指令_专用结算,（聊天用）根据发起者的话术技能进行双方的好感度、好意、快乐调整，并记录当前谈话时间
 502,COFFEE_ADD_ADJUST,指令_专用结算,（泡咖啡用）根据发起者的料理技能进行好感度、信赖、好意调整
@@ -343,12 +352,14 @@ cid,effect_name,effect_type,effect
 634,GET_SLEEP_CLOTH,属性_服装,清零其他衣服并换上睡衣（管理中则全裸）
 635,SELF_CLOTH_BACK,属性_服装,自己穿回H时脱掉的衣服
 636,SCENE_ALL_CHARACTERS_CLOTH_BACK,属性_服装,场景内所有角色穿回H时脱掉的衣服
-641,LOCKER_CLOTH_RESET,属性_服装,衣柜里的衣服清零
-642,WEAR_TO_LOCKER,属性_服装,身上首饰以外的衣服转移到柜子里
-643,LOCKER_TO_WEAR,属性_服装,衣柜里的衣服转移到身上
+641,LOCKER_CLOTH_IN_SHOWER_RESET,属性_服装,大浴场衣柜里的衣服清零
+642,WEAR_TO_SHOWER_LOCKER,属性_服装,身上首饰以外的衣服转移到大浴场柜子里
+643,SHOWER_LOCKER_TO_WEAR,属性_服装,大浴场衣柜里的衣服转移到身上
 644,GET_SWIM_CLOTH,属性_服装,清零其他衣服并换上泳衣
 645,WEAR_CLOTH_OFF_MOST,属性_服装,脱掉大部分衣服（保留首饰等）
-646,FOOT_CLOTH_TO_LOCKER,属性_服装,袜子和鞋子转移到衣柜里
+646,FOOT_CLOTH_TO_SHOWER_LOCKER,属性_服装,袜子和鞋子转移到大浴场衣柜里
+647,SHOWER_LOCKER_TO_DORMITORY_LOCKER,属性_服装,大浴场衣柜里的衣服转移到宿舍衣柜
+648,CLEAN_LOCKER_CLOTH_SEMEN,属性_服装,清理衣柜里的衣服精液
 651,UP_AND_BRA_TO_TEM,属性_服装,自己的上衣和胸罩转移到临时脱下
 652,DOWN_AND_PAN_TO_TEM,属性_服装,自己的下衣和内裤转移到临时脱下
 653,TARGET_UP_AND_BRA_TO_TEM,属性_服装,交互对象的上衣和胸罩转移到临时脱下
@@ -362,26 +373,40 @@ cid,effect_name,effect_type,effect
 753,DOOR_CLOSE_RESET,系统量_地点,当前场景取消关门状态
 761,MOVE_TO_PRE_SCENE,系统量_地点,角色移动至前一场景
 
-801,PENIS_IN_T_RESET,H_阴茎位置,当前阴茎位置为交互对象_双方归零
-802,PENIS_IN_T_HAIR,H_阴茎位置,当前阴茎位置为交互对象_发交中
-803,PENIS_IN_T_FACE,H_阴茎位置,当前阴茎位置为交互对象_阴茎蹭脸中
-804,PENIS_IN_T_MOUSE,H_阴茎位置,当前阴茎位置为交互对象_口交中
-805,PENIS_IN_T_BREAST,H_阴茎位置,当前阴茎位置为交互对象_乳交中
-806,PENIS_IN_T_AXILLA,H_阴茎位置,当前阴茎位置为交互对象_腋交中
-807,PENIS_IN_T_HAND,H_阴茎位置,当前阴茎位置为交互对象_手交中
-808,PENIS_IN_T_VAGINA,H_阴茎位置,当前阴茎位置为交互对象_V插入中
-809,PENIS_IN_T_WOMB,H_阴茎位置,当前阴茎位置为交互对象_W插入中
-810,PENIS_IN_T_ANAL,H_阴茎位置,当前阴茎位置为交互对象_A插入中
-811,PENIS_IN_T_URETHRAL,H_阴茎位置,当前阴茎位置为交互对象_U插入中
-812,PENIS_IN_T_LEG,H_阴茎位置,当前阴茎位置为交互对象_腿交中
-813,PENIS_IN_T_FOOT,H_阴茎位置,当前阴茎位置为交互对象_足交中
-814,PENIS_IN_T_TAIL,H_阴茎位置,当前阴茎位置为交互对象_尾交中
-815,PENIS_IN_T_HORN,H_阴茎位置,当前阴茎位置为交互对象_阴茎蹭角中
-816,PENIS_IN_T_EARS,H_阴茎位置,当前阴茎位置为交互对象_阴茎蹭耳朵中
-821,SCENE_ALL_CHARACTERS_PENIS_IN_RESET,H_阴茎位置,场景内所有角色的当前阴茎位置归零
-831,CANCEL_PENIS_IN_FACE_OR_MOUSE,H_阴茎位置,取消为阴茎位置交互对象_阴茎蹭脸中和口交中
+800,SCENE_ALL_CHARACTERS_PENIS_IN_RESET,H_阴茎位置,场景内所有角色的当前阴茎位置归零
+801,PENIS_IN_T_RESET,H_阴茎位置,改变当前阴茎位置为交互对象_双方归零
+802,PENIS_IN_T_HAIR,H_阴茎位置,改变当前阴茎位置为交互对象_发交中
+803,PENIS_IN_T_FACE,H_阴茎位置,改变当前阴茎位置为交互对象_阴茎蹭脸中
+804,PENIS_IN_T_MOUSE,H_阴茎位置,改变当前阴茎位置为交互对象_口交中
+805,PENIS_IN_T_BREAST,H_阴茎位置,改变当前阴茎位置为交互对象_乳交中
+806,PENIS_IN_T_AXILLA,H_阴茎位置,改变当前阴茎位置为交互对象_腋交中
+807,PENIS_IN_T_HAND,H_阴茎位置,改变当前阴茎位置为交互对象_手交中
+808,PENIS_IN_T_VAGINA,H_阴茎位置,改变当前阴茎位置为交互对象_V插入中
+809,PENIS_IN_T_WOMB,H_阴茎位置,改变当前阴茎位置为交互对象_W插入中
+810,PENIS_IN_T_ANAL,H_阴茎位置,改变当前阴茎位置为交互对象_A插入中
+811,PENIS_IN_T_URETHRAL,H_阴茎位置,改变当前阴茎位置为交互对象_U插入中
+812,PENIS_IN_T_LEG,H_阴茎位置,改变当前阴茎位置为交互对象_腿交中
+813,PENIS_IN_T_FOOT,H_阴茎位置,改变当前阴茎位置为交互对象_足交中
+814,PENIS_IN_T_TAIL,H_阴茎位置,改变当前阴茎位置为交互对象_尾交中
+815,PENIS_IN_T_HORN,H_阴茎位置,改变当前阴茎位置为交互对象_阴茎蹭角中
+816,PENIS_IN_T_EARS,H_阴茎位置,改变当前阴茎位置为交互对象_阴茎蹭耳朵中
+821,PENIS_IN_T_HAT,H_阴茎位置,改变当前阴茎位置为交互对象_帽子交中
+822,PENIS_IN_T_GLASSES,H_阴茎位置,改变当前阴茎位置为交互对象_眼镜交中
+823,PENIS_IN_T_EAR_ORNAMENT,H_阴茎位置,改变当前阴茎位置为交互对象_耳饰交中
+824,PENIS_IN_T_NECK_ORNAMENT,H_阴茎位置,改变当前阴茎位置为交互对象_脖饰交中
+825,PENIS_IN_T_MOUTH_ORNAMENT,H_阴茎位置,改变当前阴茎位置为交互对象_口罩交中
+826,PENIS_IN_T_TOP,H_阴茎位置,改变当前阴茎位置为交互对象_上衣交中
+827,PENIS_IN_T_CORSET,H_阴茎位置,改变当前阴茎位置为交互对象_胸衣交中
+828,PENIS_IN_T_GLOVES,H_阴茎位置,改变当前阴茎位置为交互对象_手套交中
+829,PENIS_IN_T_SKIRT,H_阴茎位置,改变当前阴茎位置为交互对象_裙子交中
+830,PENIS_IN_T_UNDERWEAR,H_阴茎位置,改变当前阴茎位置为交互对象_内裤交中
+831,PENIS_IN_T_SOCKS,H_阴茎位置,改变当前阴茎位置为交互对象_袜子交中
+832,PENIS_IN_T_SHOES,H_阴茎位置,改变当前阴茎位置为交互对象_鞋子交中
+833,PENIS_IN_T_WEAPONS,H_阴茎位置,改变当前阴茎位置为交互对象_武器交中
+834,PENIS_IN_T_TROUSERS,H_阴茎位置,改变当前阴茎位置为交互对象_裤子交中
+840,CANCEL_PENIS_IN_FACE_OR_MOUSE,H_阴茎位置,取消为阴茎位置交互对象_阴茎蹭脸中和口交中
 
-841,H_IN_LOVE_HOTEL_TO_FALSE,H_地点,取消自己和交互对象正在爱情旅馆中H的状态
+871,H_IN_LOVE_HOTEL_TO_FALSE,H_地点,取消自己和交互对象正在爱情旅馆中H的状态
 
 901,ITEM_OFF,道具_增减,去掉身上所有的H道具（含药品）
 902,TARGET_ITEM_OFF,道具_增减,交互对象去掉身上所有的道具（含药品）

@@ -291,15 +291,15 @@ class DIRTY:
     def __init__(self):
         # 人类正常一次射精量在2～6ml
 
-        self.body_semen: list = []
+        self.body_semen: dict = {}
         """ 身体精液情况    
         同身体部位，编号int:[0部位名str,1当前精液量int,2当前精液等级int,3总精液量int]    
         """
-        self.cloth_semen: list = []
+        self.cloth_semen: dict = {}
         """ 服装精液情况    
         同衣服类型，编号int:[0部位名str,1当前精液量int,2当前精液等级int,3总精液量int]    
         """
-        self.cloth_locker_semen: list = []
+        self.cloth_locker_semen: dict = {}
         """ 衣柜里的服装精液情况    
         同衣服类型，编号int:[0部位名str,1当前精液量int,2当前精液等级int,3总精液量int]    
         """
@@ -396,8 +396,10 @@ class CLOTH:
         """ 角色穿着的服装 部位:衣服id"""
         self.cloth_off: Dict[int, List] = {}
         """ 角色脱下的服装 部位:衣服id"""
-        self.cloth_locker: Dict[int, List] = {}
-        """ 角色放在衣柜里的服装 部位:衣服id"""
+        self.cloth_locker_in_shower: Dict[int, List] = {}
+        """ 角色放在大浴场衣柜里的服装 部位:衣服id"""
+        self.cloth_locker_in_dormitory: Dict[int, List] = {}
+        """ 角色放在宿舍衣柜里的服装 部位:衣服id"""
         self.cloth_see: Dict[int, bool] = {}
         """ 角色穿着的服装能否被看见 部位:能否"""
 
@@ -419,7 +421,7 @@ class BODY_H_STATE:
         """
 
         self.insert_position: int = -1
-        """ 阴茎插入位置，int，-1为未插入，其他同身体部位 """
+        """ 阴茎插入位置，int，-1为未插入，0开始同身体部位，20开始同服装部位 """
         self.shoot_position_body: int = -1
         """ 身体上的射精位置，int，-1为未射精，其他同身体部位 """
         self.shoot_position_cloth: int = -1
@@ -532,6 +534,8 @@ class ACTION_INFO:
         """ 要去吃饭的餐厅，见Restaurant.csv """
         self.ask_group_sex_refuse_chara_id_list = []
         """ 拒绝群P的角色id列表 """
+        self.ask_close_door_flag: bool = False
+        """ 询问当前地点是否关门的标记，true的话则已询问过，每次玩家移动时重置 """
 
 
 class AUTHOR_FLAG:
@@ -867,6 +871,10 @@ class Rhodes_Island:
         """ 今日全部门总收入 """
         self.party_day_of_week: Dict[int, Tuple[int]] = {}
         """ 一周内的派对计划，周一0~周日6:娱乐id """
+        self.total_favorability_increased: int = 0
+        """ 每日总好感度提升 """
+        self.week_fall_chara_pink_certificate_add: int = 0
+        """ 本周陷落干员提供的粉红凭证总数 """
 
         # 控制中枢
         self.current_location: List[int] = []
@@ -888,11 +896,27 @@ class Rhodes_Island:
         self.maintenance_place: Dict[int, Tuple[str]] = {}
         """ 当前每个角色的待检修地点，角色id:地点 """
 
+        # 仓储区
+        self.warehouse_capacity: int = 0
+        """ 仓库容量 """
+        self.materials_resouce: Dict[int, Tuple[int]] = {}
+        """ 素材资源 """
+
         # 生活娱乐区
         self.life_zone_max: int = 0
         """ 生活娱乐区设施数量上限 """
         self.milk_in_fridge: Dict[int, Tuple[int]] = {}
         """ 冰箱里每个干员的当日母乳存量，干员id:母乳ml存量 """
+        self.dining_hall_data: Dict[str, Dict[UUID, Food]] = {}
+        """
+        食堂内贩卖的食物数据
+        食物名字:食物唯一id:食物对象
+        """
+        self.makefood_data: Dict[str, Dict[UUID, Food]] = {}
+        """
+        做饭区的食物数据
+        食物名字:食物唯一id:食物对象
+        """
 
         # 医疗部
         self.patient_now: int = 0
@@ -909,6 +933,8 @@ class Rhodes_Island:
         """ 至今为止的治疗总收入 """
         self.urine_in_fridge: Dict[int, Tuple[int]] = {}
         """ 冷库里每个干员的当日圣水量，干员id:圣水ml存量 """
+        self.total_semen_count: int = 0
+        """ 每日总射精量 """
 
         # 文职区
         self.recruit_line: Dict[int, Tuple[float, int ,set, float]] = {}
@@ -927,6 +953,7 @@ class Rhodes_Island:
         """ 当前图书馆中的读者数量 """
         self.recommend_book_type_set: Set = set()
         """ 推荐的阅读类别 """
+
         # 贸易区
         self.shop_open_list = []
         """ 商店开放列表 """
@@ -983,57 +1010,8 @@ class Rhodes_Island:
 
         self.research_zone_max: int = 0
         """ 科研区设施数量上限 """
-        self.shop_max: int = 0
-        """ 商店数量上限 """
         self.soldier_max: int = 0
         """ 战斗时干员数量上限 """
-
-        self.money: int = 0
-        """ 龙门币数量 """
-        self.orundum: int = 0
-        """ 合成玉数量 """
-        self.Originite_Prime: int = 0
-        """ 至纯源石数量 """
-        self.pink_certificate: int = 0
-        """ 粉红凭证数量 """
-
-        self.total_favorability_increased: int = 0
-        """ 每日总好感度提升 """
-        self.week_fall_chara_pink_certificate_add: int = 0
-        """ 本周陷落干员提供的粉红凭证总数 """
-        self.total_semen_count: int = 0
-        """ 每日总射精量 """
-
-        self.warehouse_capacity: int = 0
-        """ 仓库容量 """
-        self.materials_resouce: Dict[int, Tuple[int]] = {}
-        """ 素材资源 """
-
-
-'''
-        self.daily_necessities : int = 0
-        """ 生活必需品数量 """
-        self.common_medicinal_materials : int = 0
-        """ 普通药材数量 """
-        self.special_medicinal_materials : int = 0
-        """ 矿石病药材数量 """
-        self.industrial_raw_materials : int = 0
-        """ 工业原材料数量 """
-        self.building_materials : int = 0
-        """ 碳素建材数量 """
-        self.machine_parts : int = 0
-        """ 机械零部件数量 """
-
-        self.analgesic : int = 0
-        """ 矿石病镇痛剂数量 """
-        self.inhibitor_S : int = 0
-        """ 感染抑制剂小样数量 """
-        self.inhibitor_M : int = 0
-        """ 感染抑制合剂数量 """
-        self.inhibitor_L : int = 0
-        """ 感染抑制剂浓缩液数量 """
-'''
-
 
 class Country:
     """大地图国家数据"""
@@ -1065,6 +1043,22 @@ class System_Setting:
         """ 是否开关精液流通功能 """
         self.all_chara_use_common_text: bool = True
         """ 所有角色使用通用文本 """
+
+
+class Ai_Setting:
+    """AI设置"""
+
+    def __init__(self):
+        self.ai_chat_setting: Dict[int, int] = {}
+        """ ai聊天设定，见Ai_Chat_Setting.csv """
+        self.ai_chat_api_key: Dict[str, str] = {}
+        """ ai聊天api key """
+        self.now_ai_chat_model: str = ""
+        """ 当前使用的ai聊天模型 """
+        self.now_ai_chat_base_url: str = ""
+        """ 当前使用的自定义base url """
+        self.now_ai_chat_proxy: list = ["", ""]
+        """ 当前使用的代理，[0代理ip,1代理端口] """
 
 
 class Character:
@@ -1263,8 +1257,10 @@ class Cache:
         """ 回溯输入记录用定位 """
         self.instruct_type_filter: Dict[int, bool] = {}
         """ 玩家操作指令面板指令过滤状态数据 指令类型:是否展示"""
+        self.instruct_sex_type_filter: Dict[int, bool] = {}
+        """ 玩家操作指令面板中，H类的指令过滤状态数据 指令类型:是否展示"""
         self.instruct_type_filter_cache: Dict[int, bool] = {}
-        """ 玩家操作指令面板指令过滤状态数据_的缓存 指令类型:是否展示"""
+        """ （已弃用）玩家操作指令面板指令过滤状态数据_的缓存 指令类型:是否展示"""
         self.instruct_index_filter: Dict[int, bool] = {}
         """ 玩家各编号指令过滤状态数据 指令编号:是否展示"""
         self.output_text_style: str = ""
@@ -1305,18 +1301,10 @@ class Cache:
         # """ 可穿戴道具类型数据 """
         self.over_behavior_character: Set = set()
         """ 本次update中已结束结算的npc """
+        self.pl_sleep_save_flag: bool = False
+        """ 玩家睡觉，要进行存档 """
         self.recipe_data: Dict[int, Recipes] = {}
         """ 菜谱数据 """
-        self.dining_hall_data: Dict[str, Dict[UUID, Food]] = {}
-        """
-        食堂内贩卖的食物数据
-        食物名字:食物唯一id:食物对象
-        """
-        self.makefood_data: Dict[str, Dict[UUID, Food]] = {}
-        """
-        做饭区的食物数据
-        食物名字:食物唯一id:食物对象
-        """
         self.npc_name_data: Set = set()
         """ 已有的npc姓名集合 """
         self.is_collection: bool = 0
@@ -1348,10 +1336,8 @@ class Cache:
         # self.system_setting: System_Setting = System_Setting()
         self.system_setting: Dict[int, int] = {}
         """ 系统设定，见System_Setting.csv """
-        self.ai_chat_setting: Dict[int, int] = {}
-        """ ai聊天设定，见Ai_Chat_Setting.csv """
-        self.ai_chat_api_key: Dict[int, str] = {}
-        """ ai聊天api key """
+        self.ai_setting: Ai_Setting = Ai_Setting()
+        """ ai设定 """
         self.country: Country = Country()
         """ 大地图国家数据 """
 

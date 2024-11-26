@@ -18,6 +18,8 @@ class CharacterStatus:
     """ 换衣服状态 """
     STATUS_CHARA_DIY_INSTRUCT = 5
     """ 角色自定义指令 """
+    STATUS_EMPTY_INSTRUCT = 99
+    """ 空白示范指令 """
     STATUS_CHAT = 101
     """ 聊天状态 """
     STATUS_CHAT_FAILED = 102
@@ -502,6 +504,34 @@ class CharacterStatus:
     """ 练习触手灵活度 """
     STATUS_UNDRESS = 701
     """ 脱衣服 """
+    STATUS_HAT_JOB = 710
+    """ 帽子交 """
+    STATUS_GLASSES_JOB = 711
+    """ 眼镜交 """
+    STATUS_EAR_ORNAMENT_JOB = 712
+    """ 耳饰交 """
+    STATUS_NECK_ORNAMENT_JOB = 713
+    """ 脖饰交 """
+    STATUS_MOUTH_ORNAMENT_JOB = 714
+    """ 口罩交 """
+    STATUS_TOP_JOB = 715
+    """ 上衣交 """
+    STATUS_CORSET_JOB = 716
+    """ 胸衣交 """
+    STATUS_GLOVES_JOB = 717
+    """ 手套交 """
+    STATUS_SKIRT_JOB = 718
+    """ 裙子交 """
+    STATUS_UNDERWEAR_JOB = 719
+    """ 内裤交 """
+    STATUS_SOCKS_JOB = 720
+    """ 袜子交 """
+    STATUS_SHOES_JOB = 721
+    """ 鞋子交 """
+    STATUS_WEAPONS_JOB = 722
+    """ 武器交 """
+    STATUS_TROUSERS_JOB = 723
+    """ 裤子交 """
     STATUS_ORGASM_EDGE_ON = 751
     """ 绝顶寸止 """
     STATUS_ORGASM_EDGE_OFF = 752
@@ -629,6 +659,8 @@ class Behavior:
     """ 换衣服 """
     CHARA_DIY_INSTRUCT = 5
     """ 角色自定义指令 """
+    EMPTY_INSTRUCT = 99
+    """ 空白示范指令 """
     CHAT = 101
     """ 聊天 """
     CHAT_FAILED = 102
@@ -1079,6 +1111,10 @@ class Behavior:
     """ 尿道指姦 """
     URETHRAL_SEX = 542
     """ 尿道姦 """
+    # FACE_LAY_SEX = 551
+    # """ 对面卧位 """
+    # BACK_LAY_SEX = 552
+    # """ 背面卧位 """
 
     MILKING_MACHINE_ON = 601
     """ 装上搾乳机 """
@@ -1119,6 +1155,36 @@ class Behavior:
 
     UNDRESS = 701
     """ 脱衣服 """
+
+    HAT_JOB = 710
+    """ 帽子交 """
+    GLASSES_JOB = 711
+    """ 眼镜交 """
+    EAR_ORNAMENT_JOB = 712
+    """ 耳饰交 """
+    NECK_ORNAMENT_JOB = 713
+    """ 脖饰交 """
+    MOUTH_ORNAMENT_JOB = 714
+    """ 口罩交 """
+    TOP_JOB = 715
+    """ 上衣交 """
+    CORSET_JOB = 716
+    """ 胸衣交 """
+    GLOVES_JOB = 717
+    """ 手套交 """
+    SKIRT_JOB = 718
+    """ 裙子交 """
+    UNDERWEAR_JOB = 719
+    """ 内裤交 """
+    SOCKS_JOB = 720
+    """ 袜子交 """
+    SHOES_JOB = 721
+    """ 鞋子交 """
+    WEAPONS_JOB = 722
+    """ 武器交 """
+    TROUSERS_JOB = 723
+    """ 裤子交 """
+
     ORGASM_EDGE_ON = 751
     """ 绝顶寸止 """
     ORGASM_EDGE_OFF = 752
@@ -1357,11 +1423,16 @@ class StateMachine:
     """ 工作：种植与养护作物 """
     WORK_DEAL_WITH_DIPLOMACY = 316
     """ 工作：处理外交事宜 """
+    WORK_SEX_EXERCISES = 317
+    """ 工作：性爱练习 """
+    WORK_COMBAT_TRAINING = 318
+    """ 工作：战斗训练 """
+    WORK_FITNESS_TRAINING = 319
+    """ 工作：健身锻炼 """
 
     ENTERTAIN_READ = 401
     """ 娱乐：读书 """
-    ENTERTAIN_TRAINING = 402
-    """ 娱乐：训练 """
+    # 402空缺占位
     ENTERTAIN_SINGING = 403
     """ 娱乐：唱歌 """
     ENTERTAIN_PLAY_CLASSIC_INSTRUMENT = 404
@@ -1511,6 +1582,8 @@ class StateMachine:
     """ 移动至游泳池 """
     MOVE_TO_TRAINING_LOCKER_ROOM = 612
     """ 移动至训练场的更衣室 """
+    MOVE_TO_GYM_ROOM = 613
+    """ 移动至健身区 """
     MOVE_TO_MAINTENANCE_DEPARTMENT = 621
     """ 移动至运维部 """
     MOVE_TO_BLACKSMITH_SHOP = 622
@@ -1521,6 +1594,8 @@ class StateMachine:
     """ 移动至药田 """
     MOVE_TO_GREENHOUSE = 642
     """ 移动至温室 """
+    MOVE_TO_HUMILIATION_ROOM = 651
+    """ 移动至调教室 """
 
     HELP_BUY_FOOD_1 = 701
     """ 进入要买饭状态 """
@@ -1833,6 +1908,35 @@ class SecondBehavior:
     PENIS_IN_RUB_BUTTOCK = 1216
     """ 结算素股中 """
 
+    PENIS_IN_HAT_JOB = 1221
+    """ 结算帽子交中 """
+    PENIS_IN_GLASSES_JOB = 1222
+    """ 结算眼镜交中 """
+    PENIS_IN_EAR_ORNAMENT_JOB = 1223
+    """ 结算耳饰交中 """
+    PENIS_IN_NECK_ORNAMENT_JOB = 1224
+    """ 结算脖饰交中 """
+    PENIS_IN_MOUTH_ORNAMENT_JOB = 1225
+    """ 结算口罩交中 """
+    PENIS_IN_TOP_JOB = 1226
+    """ 结算上衣交中 """
+    PENIS_IN_CORSET_JOB = 1227
+    """ 结算胸衣交中 """
+    PENIS_IN_GLOVES_JOB = 1228
+    """ 结算手套交中 """
+    PENIS_IN_SKIRT_JOB = 1229
+    """ 结算裙子交中 """
+    PENIS_IN_UNDERWEAR_JOB = 1230
+    """ 结算内裤交中 """
+    PENIS_IN_SOCKS_JOB = 1231
+    """ 结算袜子交中 """
+    PENIS_IN_SHOES_JOB = 1232
+    """ 结算鞋子交中 """
+    PENIS_IN_WEAPONS_JOB = 1233
+    """ 结算武器交中 """
+    PENIS_IN_TROUSERS_JOB = 1234
+    """ 结算裤子交中 """
+
     N_ORGASM_SUPER = 1250
     """ 结算N绝顶被寸止 """
     B_ORGASM_SUPER = 1251
@@ -2035,6 +2139,25 @@ class InstructType:
     """ 猥亵 """
     SEX = 6
     """ 性爱 """
+
+
+class SexInstructSubType:
+    """性爱指令子类型"""
+
+    BASE = 0
+    """ 基础 """
+    WAIT_UPON = 1
+    """ 侍奉 """
+    DRUG = 2
+    """ 药物 """
+    ITEM = 3
+    """ 道具 """
+    INSERT = 4
+    """ 插入 """
+    SM = 5
+    """ SM """
+    ARTS = 6
+    """ 技艺 """
 
 
 class Instruct:
@@ -2461,6 +2584,34 @@ class Instruct:
     """ 阴茎蹭角 """
     EARS_RUB = 0
     """ 阴茎蹭耳朵 """
+    HAT_JOB = 0
+    """ 帽子交 """
+    GLASSES_JOB = 0
+    """ 眼镜交 """
+    EAR_ORNAMENT_JOB = 0
+    """ 耳饰交 """
+    NECK_ORNAMENT_JOB = 0
+    """ 脖饰交 """
+    MOUTH_ORNAMENT_JOB = 0
+    """ 口罩交 """
+    TOP_JOB = 0
+    """ 上衣交 """
+    CORSET_JOB = 0
+    """ 胸衣交 """
+    GLOVES_JOB = 0
+    """ 手套交 """
+    SKIRT_JOB = 0
+    """ 裙子交 """
+    TROUSERS_JOB = 0
+    """ 裤子交 """
+    UNDERWEAR_JOB = 0
+    """ 内裤交 """
+    SOCKS_JOB = 0
+    """ 袜子交 """
+    SHOES_JOB = 0
+    """ 鞋子交 """
+    WEAPONS_JOB = 0
+    """ 武器交 """
     BODY_LUBRICANT = 0
     """ 润滑液 """
     BIRTH_CONTROL_PILLS = 0
@@ -2628,6 +2779,8 @@ handle_instruct_name_data: Dict[int, str] = {}
 """ 指令对应文本 """
 instruct_type_data: Dict[int, Set] = {}
 """ 指令类型拥有的指令集合 """
+instruct_sub_type_data: Dict[int, int] = {}
+""" 指令的子类型数据，指令id:子类id """
 instruct_premise_data: Dict[int, Set] = {}
 """ 指令显示的所需前提集合 """
 handle_state_machine_data: Dict[int, FunctionType] = {}
@@ -2661,7 +2814,7 @@ settle_second_behavior_effect_data: Dict[int, FunctionType] = {}
 first_NPC_name_set = {_("阿米娅"),_("凯尔希"),_("可露希尔"),_("特蕾西娅"),_("华法琳"),_("杜宾")}
 """ 初始就有的NPC的名字 """
 
-ban_NPC_name_set = {_("普瑞赛斯"),_("老天师"),_("魔王"),_("塔露拉"),_("莉泽洛特"),_("坎黛拉"),_("克丽斯腾"),_("文月"),_("年"),_("夕"),_("令"),_("黍")}
+ban_NPC_name_set = {_("普瑞赛斯"),_("老天师"),_("魔王"),_("菈玛莲"),_("塔露拉"),_("莉泽洛特"),_("希尔德加德"),_("坎黛拉"),_("克丽斯腾"),_("爱布拉娜"),_("温德米尔"),_("赫拉提娅"),_("文月"),_("年"),_("夕"),_("令"),_("黍")}
 """ 无法直接招募到的NPC的名字 """
 
 special_end_H_list = [Behavior.H_INTERRUPT, Behavior.H_HP_0, Behavior.T_H_HP_0]

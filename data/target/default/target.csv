@@ -25,7 +25,7 @@ ai的目标,,,,
 35,502,sleep_flag_1|not_in_dor,12,要睡觉状态下，不在宿舍，则回宿舍
 36,44,sleep_flag_1|sleep_h_awake_0|in_dor|not_need_masturebate_before_sleep_or_already_masturebate,12,要睡觉状态下，没有睡奸中醒来状态，且已在宿舍，自身不需要睡前自慰或已经睡前自慰，则睡觉
 37,44,tired_100,0,疲劳值到100%，当场直接爆睡
-38,93,in_dor|sleep_flag_0|sleep_cloth_or_not_normal_4,0,在宿舍里，无要睡觉状态，身上穿着睡衣或服装异常，则起床（换上正常服装+调整管理白天道具）
+38,93,in_dor|sleep_flag_0|ai_have_not_wake_up,0,在宿舍里，无要睡觉状态，NPC今天还没有起床，则起床（换上正常服装+调整管理白天道具）
 
 41,75,normal_1267|hunger_ge_80|eat_time|assistant_send_food_of_ai_disable|assistant_salutation_of_ai_disable,11,1267正常（可能AI跟随、服装异常或意识模糊），饥饿值到80%，且在饭点，且不满足助理送饭，且不满足助理问候，则进入要取餐状态
 42,522,eat_food_flag_1|not_in_ai_food_shop,12,要取餐状态下，且不在AI要去吃饭的食物商店里，则去食物商店
@@ -113,7 +113,10 @@ ai的目标,,,,
 
 341,514,normal_all|to_work_time|work_is_combat_training|not_in_training_room,21,正常状态下，在到岗时间，工作是战斗训练，当前不在训练室，则移动至训练室
 342,514,normal_all|work_time|work_is_combat_training|not_in_training_room,21,正常状态下，在工作时间，工作是战斗训练，当前不在训练室，则移动至训练室
-343,402,normal_all_except_special_hypnosis|work_time|work_is_combat_training|in_training_room,22,正常状态下或被空气或体控催眠中，在工作时间，工作是战斗训练，且当前在训练室，则进行战斗训练
+343,318,normal_all_except_special_hypnosis|work_time|work_is_combat_training|in_training_room,22,正常状态下或被空气或体控催眠中，在工作时间，工作是战斗训练，且当前在训练室，则进行战斗训练
+344,613,normal_all|to_work_time|work_is_fitness_trainer|not_in_gym_room,21,正常状态下，在到岗时间，工作是健身锻炼，当前不在健身区，则移动至健身区
+345,613,normal_all|work_time|work_is_fitness_trainer|not_in_gym_room,21,正常状态下，在工作时间，工作是健身锻炼，当前不在健身区，则移动至健身区
+346,319,normal_all_except_special_hypnosis|work_time|work_is_fitness_trainer|in_gym_room,22,正常状态下或被空气或体控催眠中，在工作时间，工作是健身锻炼，且当前在健身区，则进行健身锻炼
 
 351,521,normal_all|work_is_cook|to_work_time|not_in_kitchen,21,正常状态下，工作是厨师，在到岗时间，如果不在厨房，则去厨房
 352,521,normal_all|work_is_cook|work_time|not_in_kitchen,21,正常状态下，工作是厨师，在工作时间，如果不在厨房，则去厨房
@@ -243,3 +246,7 @@ ai的目标,,,,
 601,40,normal_2_5_6|place_door_open|place_is_h|not_in_dor,0,自己256正常，当前地点的门开着，目睹玩家和其他角色H，且不在自己宿舍里，则逃回自己宿舍
 
 701,1,normal_1|unconscious_flag_5,1,1正常（基础正常），自身被空气催眠，则原地待机10分钟
+
+801,651,normal_all|work_is_sex_trainee|ask_one_exercises|to_work_time|not_in_humiliation_room,21,正常状态下，工作是性爱练习生，自己被要求进行了至少一项练习，在到岗时间，如果不在调教室，则去调教室
+802,651,normal_all|work_is_sex_trainee|ask_one_exercises|work_time|not_in_humiliation_room,21,正常状态下，工作是性爱练习生，自己被要求进行了至少一项练习，在工作时间，如果不在调教室，则去调教室
+803,317,normal_all_except_special_hypnosis|work_is_sex_trainee|ask_one_exercises|work_time|in_humiliation_room,22,正常状态下或被空气或体控催眠中，自己被要求进行了至少一项练习，工作是性爱练习生，在工作时间，如果在调教室，则开始性爱练习

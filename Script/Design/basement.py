@@ -6,7 +6,7 @@ from Script.Core import (
     get_text,
 )
 from Script.Config import game_config, normal_config
-from Script.Design import handle_premise, attr_calculation, character_handle, game_time, character
+from Script.Design import handle_premise_place, attr_calculation, character_handle, game_time, character
 from Script.UI.Moudle import draw
 
 cache: game_type.Cache = cache_control.cache
@@ -132,9 +132,6 @@ def get_base_updata():
         # 初始化科研区设施数量上限
         elif facility_name == _("科研部"):
             cache.rhodes_island.research_zone_max = game_config.config_facility_effect[facility_cid].effect
-        # 初始化商店数量上限
-        elif facility_name == _("贸易区"):
-            cache.rhodes_island.shop_max = game_config.config_facility_effect[facility_cid].effect
         # 初始化战斗时干员数量上限
         elif facility_name == _("指挥室"):
             cache.rhodes_island.soldier_max = game_config.config_facility_effect[facility_cid].effect
@@ -355,7 +352,7 @@ def update_facility_people():
     cache.npc_id_got.discard(0)
     for id in cache.npc_id_got:
         # 图书馆读者统计
-        if handle_premise.handle_in_library(id):
+        if handle_premise_place.handle_in_library(id):
             cache.rhodes_island.reader_now += 1
 
 
@@ -615,9 +612,9 @@ def update_invite_visitor():
             cache.rhodes_island.invite_visitor[1] = 0
 
 
-def check_facility_open():
+def get_empty_guest_room_id():
     """
-    判断是否有空闲客房，暂时没有用
+    判断是否有空闲客房，如果有的话返回客房id
     """
     # 遍历全部客房
     guest_rooms = [room_id for room_id in cache.rhodes_island.facility_open if 1200 < room_id < 1300]
@@ -635,9 +632,9 @@ def check_facility_open():
                 break
         if have_visitor_flag:
             continue
-        # 发现没有人住的房间，返回True
+        # 发现没有人住的房间，返回客房id
         else:
-            return True
+            return room_id
     # 如果没有空闲客房，则返回False
     return False
 
@@ -704,6 +701,7 @@ def settle_visitor_arrivals(visitor_id = 0):
     return 0 时，没有访客抵达
     return 1 时，有访客抵达
     """
+    from Script.UI.Panel import recruit_panel
     now_draw = draw.WaitDraw()
     now_draw.width = window_width
     now_draw.style = "gold_enrod"
@@ -717,8 +715,8 @@ def settle_visitor_arrivals(visitor_id = 0):
     else:
         # 随机抽取一名访客
         if visitor_id == 0:
-            # 未招募的干员id
-            not_recruit_npc_id_list = [id for id in range(1, len(cache.npc_tem_data) + 1) if id not in cache.npc_id_got]
+            # 未招募的干员id列表
+            not_recruit_npc_id_list = recruit_panel.find_recruitable_npc()
             # 根据当前基地的位置筛选出同国度且没有招募的干员
             now_country_id = cache.rhodes_island.current_location[0]
             now_country_npc_id_list = []

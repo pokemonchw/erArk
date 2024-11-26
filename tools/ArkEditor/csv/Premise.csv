@@ -82,6 +82,7 @@ last_cmd_blowjob_or_paizuri,LAST_CMD_BLOWJOB_OR_PAIZURI,指令_前指令,前一�
 last_cmd_blowjob_or_cunnilingus,LAST_CMD_BLOWJOB_OR_CUNNILINGUS,指令_前指令,前一指令为口交或舔阴_指令触发用
 last_cmd_sex,LAST_CMD_SEX,指令_前指令,前一指令为V性交_指令触发用
 last_cmd_w_sex,LAST_CMD_W_SEX,指令_前指令,前一指令为W性交_指令触发用
+last_cmd_sex_or_w_sex,LAST_CMD_SEX_OR_W_SEX,指令_前指令,前一指令为V性交或W性交_指令触发用
 last_cmd_a_sex,LAST_CMD_A_SEX,指令_前指令,前一指令为A性交_指令触发用
 last_cmd_u_sex,LAST_CMD_U_SEX,指令_前指令,前一指令为U性交_指令触发用
 last_cmd_breast_caress_type,LAST_CMD_BREAST_CARESS_TYPE,指令_前指令,前一指令为胸部爱抚类(403，404，405)
@@ -122,7 +123,7 @@ place_furniture_1,PLACE_FURNITURE_1,地点_属性,当前地点仅有基础家具
 place_furniture_2,PLACE_FURNITURE_2,地点_属性,当前地点有办公级家具
 place_furniture_3,PLACE_FURNITURE_3,地点_属性,当前地点有卧室级家具（即含床）
 place_furniture_0,PLACE_FURNITURE_0,地点_属性,当前地点没家具
-in_functional_room,IN_FUNCTIONAL_ROOM,地点_属性,在功能性地点中
+in_functional_room,IN_FUNCTIONAL_ROOM,地点_属性,在功能性地点中（本前提已弃用）
 place_door_open,PLACE_DOOR_OPEN,地点_属性,地点的门是开着的（不含内隔间关门）
 place_ladies_only,PLACE_LADIES_ONLY,地点_属性,该地点男士止步（女洗手间/更衣室/浴室等）
 place_in_collection_list,PALCE_IN_COLLECTION_LIST,地点_属性,当前地点在收藏列表中
@@ -148,7 +149,6 @@ in_command_room_or_out_exit,IN_COMMAND_ROOM_OR_OUT_EXIT,地点_定位,在指挥�
 in_dor,IN_DORMITORY,地点_定位,在自己宿舍中
 not_in_dor,NOT_IN_DORMITORY,地点_定位,不在自己宿舍中
 in_dor_or_hotel,IN_DORMITORY_OR_HOTEL,地点_定位,在自己宿舍中或在已经入住的旅馆中
-in_bathroom,IN_BATHROOM,地点_定位,在浴室中
 in_toilet_man,IN_TOILET_MAN,地点_定位,在男士洗手间
 in_toilet_female,IN_TOILET_FEMALE,地点_定位,在女士洗手间
 not_in_toilet_female,NOT_IN_TOILET_FEMALE,地点_定位,不在女士洗手间
@@ -182,6 +182,7 @@ in_library_or_library_office,IN_LIBRARY_OR_LIBRARY_OFFICE,地点_定位,在图�
 not_in_library_or_library_office,NOT_IN_LIBRARY_OR_LIBRARY_OFFICE,地点_定位,不在图书馆或图书馆办公室中
 in_collection_room,IN_COLLECTION_ROOM,地点_定位,在藏品馆中
 in_gym_room,IN_GYM_ROOM,地点_定位,在健身区中
+not_in_gym_room,NOT_IN_GYM_ROOM,地点_定位,不在健身区中
 in_training_room,IN_TRAINING_ROOM,地点_定位,在训练室中（包括木桩房和射击房）
 not_in_training_room,NOT_IN_TRAINING_ROOM,地点_定位,不在训练室中（包括木桩房和射击房）
 in_fight_room,IN_FIGHT_ROOM,地点_定位,在木桩房中
@@ -282,8 +283,37 @@ in_breeding_farm,IN_BREEDING_FARM,地点_定位,在磐蟹养殖场
 not_in_breeding_farm,NOT_IN_BREEDING_FARM,地点_定位,不在磐蟹养殖场
 in_prison,IN_PRISON,地点_定位,在监牢
 not_in_prison,NOT_IN_PRISON,地点_定位,不在监牢
+in_humiliation_room,IN_HUMILIATION_ROOM,地点_定位,在调教室
+not_in_humiliation_room,NOT_IN_HUMILIATION_ROOM,地点_定位,不在调教室
 in_deck,IN_DECK,地点_定位,在甲板
 not_in_deck,NOT_IN_DECK,地点_定位,不在甲板
+
+in_aegir,IN_AEGIR,地点_罗德岛,在阿戈尔
+in_bolivar,IN_BOLIVAR,地点_罗德岛,在玻利瓦尔
+in_higashi,IN_HIGASHI,地点_罗德岛,在东
+in_columbia,IN_COLUMBIA,地点_罗德岛,在哥伦比亚
+in_kazimierz,IN_KAZIMIERZ,地点_罗德岛,在卡西米尔
+in_kazdel,IN_KAZDEL,地点_罗德岛,在卡兹戴尔
+in_laterano,IN_LATERANO,地点_罗德岛,在拉特兰
+in_leithanien,IN_LEITHANIEN,地点_罗德岛,在莱塔尼亚
+in_rim_billiton,IN_RIM_BILLITON,地点_罗德岛,在雷姆必拓
+in_minos,IN_MINOS,地点_罗德岛,在米诺斯
+in_sargon,IN_SARGON,地点_罗德岛,在萨尔贡
+in_sami,IN_SAMI,地点_罗德岛,在萨米
+in_victoria,IN_VICTORIA,地点_罗德岛,在维多利亚
+in_ursus,IN_URSUS,地点_罗德岛,在乌萨斯
+in_kjerag,IN_KJERAG,地点_罗德岛,在谢拉格
+in_siracusa,IN_SIRACUSA,地点_罗德岛,在叙拉古
+in_yan,IN_YAN,地点_罗德岛,在炎
+in_iberia,IN_IBERIA,地点_罗德岛,在伊比利亚
+in_durin,IN_DURIN,地点_罗德岛,在杜林
+in_siesta,IN_SIESTA,地点_罗德岛,在汐斯塔
+in_northern,IN_NORTHERN,地点_罗德岛,在北地
+in_foehn_hotlands,IN_FOEHN_HOTLANDS,地点_罗德岛,在焚风热土
+in_karlan,IN_KARLAN,地点_罗德岛,在喀兰
+in_dan,IN_DAN,地点_罗德岛,在檀
+in_vouivre,IN_VOUVIRE,地点_罗德岛,在瓦伊凡
+in_infy_icefield,IN_INFY_ICEFIELD,地点_罗德岛,在无尽冰原
 
 move_to_toilet_female,MOVE_TO_TOILET_FEMALE,地点_移动,角色抵达女士洗手间
 move_to_locker_room,MOVE_TO_LOCKER_ROOM,地点_移动,角色抵达更衣室
@@ -302,6 +332,11 @@ ai_wait,AI_WAIT,时间_角色,NPC需要进行一次5分钟的等待（wait_flag=
 ai_trained,HAVE_TRAINED,时间_角色,NPC距离上次战斗训练已经超过两天了
 ai_not_shower,NOT_SHOWER,时间_角色,NPC今天还没有洗澡
 ai_have_showered,HAVE_SHOWERED,时间_角色,NPC今天已经洗过澡了
+ai_have_not_wake_up,HAVE_NOT_WAKE_UP,时间_角色,NPC今天还没有起床
+
+first_kiss_in_today,FIRST_KISS_IN_TODAY,时间_初次,自己今天失去了初吻
+first_sex_in_today,FIRST_SEX_IN_TODAY,时间_初次,自己今天失去了V处女
+first_a_sex_in_today,FIRST_A_SEX_IN_TODAY,时间_初次,自己今天失去了A处女
 
 time_day,TIME_DAY,时间_当前,时间:白天（6点~18点）
 time_night,TIME_NIGHT,时间_当前,时间:夜晚（18点~6点）
@@ -486,6 +521,18 @@ ask_not_wash_semen,ASK_NOT_WASH_SEMEN,属性_身体管理,自己被要求洗澡�
 ask_masturbation_before_sleep,ASK_MASTURBATION_BEFORE_SLEEP,属性_身体管理,自己被要求每天晚上睡前都要自慰
 ask_not_masturbation,ASK_NOT_MASTURBATION,属性_身体管理,自己被要求禁止自慰
 not_ask_not_masturbation,NOT_ASK_NOT_MASTURBATION,属性_身体管理,自己没有被要求禁止自慰
+ask_none_exercises,ASK_NONE_EXERCISES,属性_身体管理,自己没有被要求进行任何练习
+ask_one_exercises,ASK_ONE_EXERCISES,属性_身体管理,自己被要求进行了至少一项练习
+ask_ge_3_exercises,ASK_GE_3_EXERCISES,属性_身体管理,自己被要求进行了至少3项练习
+ask_sucking_and_swallowing_exercises,ASK_SUCKING_AND_SWALLOWING_EXERCISES,属性_身体管理,自己被要求进行吮吸与吞咽力练习
+ask_armpit_clamping_exercises,ASK_ARMPIT_CLAMPING_EXERCISES,属性_身体管理,自己被要求进行腋下夹持力练习
+ask_breast_clamping_exercise,ASK_BREAST_CLAMPING_EXERCISES,属性_身体管理,自己被要求进行胸部夹持力练习
+ask_hands_flexibility_exercises,ASK_HANDS_FLEXIBILITY_EXERCISES,属性_身体管理,自己被要求进行手部灵活度练习
+ask_foots_flexibility_exercises,ASK_FOOTS_FLEXIBILITY_EXERCISES,属性_身体管理,自己被要求进行足部灵活度练习
+ask_vagina_firmness_exercises,ASK_VAGINA_FIRMNESS_EXERCISES,属性_身体管理,自己被要求进行阴道紧致度练习
+ask_intestine_firmness_exercises,ASK_INTESTINE_FIRMNESS_EXERCISES,属性_身体管理,自己被要求进行肠道紧致度练习
+ask_tail_flexibility_exercises,ASK_TAIL_FLEXIBILITY_EXERCISES,属性_身体管理,自己被要求进行尾巴灵活度练习
+ask_tentacle_flexibility_exercises,ASK_TENTACLE_FLEXIBILITY_EXERCISES,属性_身体管理,自己被要求进行触手灵活度练习
 
 self_have_nick_name_to_pl,SELF_HAVE_NICK_NAME_TO_PL,属性_昵称,自己已设定对玩家的称呼
 self_not_have_nick_name_to_pl,SELF_NOT_HAVE_NICK_NAME_TO_PL,属性_昵称,自己未设定对玩家的称呼
@@ -896,6 +943,7 @@ t_lactation_0,T_LACTATION_0,属性_素质,交互对象泌乳==0
 t_lactation_1,T_LACTATION_1,属性_素质,交互对象泌乳==1
 t_baby_1,T_BABY_1,属性_素质,交互对象婴儿==1
 
+child_1,SELF_IS_CHILD,属性_素质,自己是幼女
 t_child_or_loli_1,T_CHILD_OR_LOLI_1,属性_素质,交互对象幼女或萝莉==1
 breast_0,SELF_CHEST_IS_CLIFF,属性_素质,自己胸部大小是绝壁
 t_breast_0,TARGET_CHEST_IS_CLIFF,属性_素质,交互对象胸部大小是绝壁
@@ -1028,6 +1076,7 @@ t_work_is_library_manager,T_WORK_IS_LIBRARY_MANAGER,属性_工作,交互对象�
 work_is_teacher,WORK_IS_TEACHER,属性_工作,自己的工作为教师
 work_is_student,WORK_IS_STUDENT,属性_工作,自己的工作为学生
 work_is_combat_training,WORK_IS_COMBAT_TRAINING,属性_工作,自己的工作为训练学员
+work_is_fitness_trainer,WORK_IS_FITNESS_TRAINER,属性_工作,自己的工作为健身锻炼员
 work_is_cook,WORK_IS_COOK,属性_工作,自己的工作为厨师
 work_is_production_worker,WORK_IS_PRODUCTION_WORKER,属性_工作,自己的工作为生产工人
 work_is_massage_therapist,WORK_IS_MASSAGE_THERAPIST,属性_工作,自己的工作为按摩师
@@ -1035,6 +1084,7 @@ work_is_diplomat,WORK_IS_DIPLOMAT,属性_工作,自己的工作为外交官
 work_is_invitation_commissioner,WORK_IS_INVITATION_COMMISSIONER,属性_工作,自己的工作为邀请专员
 work_is_medicinal_planter,WORK_IS_MEDICINAL_PLANTER,属性_工作,自己的工作为药材种植员
 work_is_floral_planter,WORK_IS_FLORAL_PLANTER,属性_工作,自己的工作为花草种植员
+work_is_sex_trainee,WORK_IS_SEX_TRAINEE,属性_工作,自己的工作为性爱练习生
 
 entertainment_is_read,ENTERTAINMENT_IS_READ,属性_娱乐,自己当前时段的娱乐为读书
 entertainment_is_sing,ENTERTAINMENT_IS_SING,属性_娱乐,自己当前时段的娱乐为唱歌
@@ -1065,13 +1115,19 @@ entertainment_is_steam_sauna,ENTERTAINMENT_IS_STEAM_SAUNA,属性_娱乐,自己�
 entertainment_is_hydrotherapy_treatment,ENTERTAINMENT_IS_HYDROTHERAPY_TREATMENT,属性_娱乐,自己当前时段的娱乐为水疗护理
 entertainment_is_onsen_bath,ENTERTAINMENT_IS_ONSEN_BATH,属性_娱乐,自己当前时段的娱乐为泡温泉
 
+t_wear_hat,TARGET_WEAR_HAT,属性_服装,交互对象穿着帽子
 t_not_wear_hat,TARGET_NOT_WEAR_HAT,属性_服装,交互对象没有穿着帽子
+t_wear_glass,TARGET_WEAR_GLASS,属性_服装,交互对象戴着眼镜
 t_not_wear_glass,TARGET_NOT_WEAR_GLASS,属性_服装,交互对象没有戴着眼镜
+t_wear_in_ear,TARGET_WEAR_IN_EAR,属性_服装,交互对象戴着耳饰
 t_not_wear_in_ear,TARGET_NOT_WEAR_IN_EAR,属性_服装,交互对象没有戴耳饰
+t_wear_in_neck,TARGET_WEAR_IN_NECK,属性_服装,交互对象戴着脖饰
 t_not_wear_in_neck,TARGET_NOT_WEAR_IN_NECK,属性_服装,交互对象没有戴脖饰
+t_wear_in_mouse,TARGET_WEAR_IN_MOUSE,属性_服装,交互对象戴着口饰
 t_not_wear_in_mouse,TARGET_NOT_WEAR_IN_MOUSE,属性_服装,交互对象没有戴口饰
 wear_in_up,WEAR_IN_UP,属性_服装,穿着上衣
 not_wear_in_up,NOT_WEAR_IN_UP,属性_服装,没有穿着上衣
+t_wear_in_up,TARGET_WEAR_IN_UP,属性_服装,交互对象穿着上衣
 t_not_wear_in_up,TARGET_NOT_WEAR_IN_UP,属性_服装,交互对象没有穿着上衣
 wear_bra,WEAR_BRA,属性_服装,穿着胸衣
 not_wear_bra,NOT_WEAR_BRA,属性_服装,没有穿着胸衣
@@ -1079,18 +1135,22 @@ t_wear_bra,TARGET_WEAR_BRA,属性_服装,交互对象穿着胸衣
 t_not_wear_bra,TARGET_NOT_WEAR_BRA,属性_服装,交互对象没有穿着胸衣
 t_wear_gloves,TARGET_WEAR_GLOVES,属性_服装,交互对象戴着手套
 t_not_wear_gloves,TARGET_NOT_WEAR_GLOVES,属性_服装,交互对象没有戴着手套
+t_wear_in_down,TARGET_WEAR_IN_DOWN,属性_服装,交互对象穿着下衣
 t_not_wear_in_down,TARGET_NOT_WEAR_IN_DOWN,属性_服装,交互对象没有穿着下衣
 wear_skirt,WEAR_SKIRT,属性_服装,穿着裙子
 t_wear_skirt,TARGET_WEAR_SKIRT,属性_服装,交互对象穿着裙子
 t_wear_trousers,TARGET_WEAR_TROUSERS,属性_服装,交互对象穿着裤子
 wear_pan,WEAR_PAN,属性_服装,穿着内裤
+not_wear_pan,NOT_WEAR_PAN,属性_服装,没有穿着内裤
 t_wear_pan,TARGET_WEAR_PAN,属性_服装,交互对象穿着内裤
 t_not_wear_pan,TARGET_NOT_WEAR_PAN,属性_服装,交互对象没有穿着内裤
 wear_socks,WEAR_SOCKS,属性_服装,穿着袜子
-not_wear_shoes,NOT_WEAR_SHOES,属性_服装,没有穿着鞋子
 t_wear_socks,TARGET_WEAR_SOCKS,属性_服装,交互对象穿着袜子
 t_not_wear_socks,TARGET_NOT_WEAR_SOCKS,属性_服装,交互对象没有穿着袜子
+not_wear_shoes,NOT_WEAR_SHOES,属性_服装,没有穿着鞋子
+t_wear_shoes,TARGET_WEAR_SHOES,属性_服装,交互对象穿着鞋子
 t_not_wear_shoes,TARGET_NOT_WEAR_SHOES,属性_服装,交互对象没有穿着鞋子
+t_take_weapon,TARGET_TAKE_WEAPON,属性_服装,交互对象拿着武器
 t_not_take_weapon,TARGET_NOT_TAKE_WEAPON,属性_服装,交互对象没有拿着武器
 t_not_take_extras,TARGET_NOT_TAKE_EXTRAS,属性_服装,交互对象没有拿着附属物
 cloth_off,CLOTH_OFF,属性_服装,当前全裸

@@ -3,7 +3,7 @@ import datetime
 from types import FunctionType
 from Script.Settle import default
 from Script.Config import game_config
-from Script.Design import handle_state_machine, character_move, map_handle, clothing, handle_instruct, basement, handle_premise
+from Script.Design import handle_state_machine, character_move, map_handle, clothing, handle_instruct, basement, handle_premise, handle_premise_place
 from Script.Core import get_text, cache_control, game_type, constant
 from Script.UI.Moudle import draw
 
@@ -36,11 +36,20 @@ def general_movement_module(character_id: int, target_scene: list):
                 else:
                     target_scene[i] = _(target_scene[i], revert_translation = True)
     tem_1, tem_2, move_path, move_time = character_move.character_move(character_id, target_scene)
-    character_data.behavior.move_final_target = target_scene
-    character_data.behavior.behavior_id = constant.Behavior.MOVE
-    character_data.behavior.move_target = move_path
-    character_data.behavior.duration = move_time
-    character_data.state = constant.CharacterStatus.STATUS_MOVE
+    # 寻路正常时
+    if move_time > 0:
+        character_data.behavior.move_final_target = target_scene
+        character_data.behavior.behavior_id = constant.Behavior.MOVE
+        character_data.behavior.move_target = move_path
+        character_data.behavior.duration = move_time
+        character_data.state = constant.CharacterStatus.STATUS_MOVE
+        return True
+    # 寻路失败时
+    else:
+        character_data.behavior.behavior_id = constant.Behavior.WAIT
+        character_data.behavior.duration = 1
+        character_data.state = constant.CharacterStatus.STATUS_WAIT
+        return False
 
 
 @handle_state_machine.add_state_machine(constant.StateMachine.WAIT_5_MIN)
@@ -94,7 +103,11 @@ def character_move_to_dormitory(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
+    from Script.Design import character_handle
     character_data: game_type.Character = cache.character_data[character_id]
+    # 增加一个对宿舍是否为无的判定
+    if character_data.dormitory == _("无"):
+        character_handle.new_character_get_dormitory(character_id)
     target_scene = map_handle.get_map_system_path_for_str(character_data.dormitory)
     general_movement_module(character_id, target_scene)
 
@@ -629,6 +642,19 @@ def character_move_to_swimming_pool(character_id: int):
     general_movement_module(character_id, to_swimming_pool)
 
 
+@handle_state_machine.add_state_machine(constant.StateMachine.MOVE_TO_GYM_ROOM)
+def character_move_to_gym_room(character_id: int):
+    """
+    移动至健身区
+    Keyword arguments:
+    character_id -- 角色id
+    """
+    to_gym_room = map_handle.get_map_system_path_for_str(
+        random.choice(constant.place_data["Gym"])
+    )
+    general_movement_module(character_id, to_gym_room)
+
+
 @handle_state_machine.add_state_machine(constant.StateMachine.MOVE_TO_FOOT_BATH)
 def character_move_to_foot_bath(character_id: int):
     """
@@ -778,6 +804,26 @@ def character_move_to_greenhouse(character_id: int):
     if character_data.position == cache.character_data[0].position:
         now_draw = draw.NormalDraw()
         now_draw.text = _("{0}打算去温室\n").format(character_data.name)
+        now_draw.draw()
+
+
+@handle_state_machine.add_state_machine(constant.StateMachine.MOVE_TO_HUMILIATION_ROOM)
+def character_move_to_humiliation_room(character_id: int):
+    """
+    移动至调教室
+    Keyword arguments:
+    character_id -- 角色id
+    """
+    character_data: game_type.Character = cache.character_data[character_id]
+    to_humiliation_room = map_handle.get_map_system_path_for_str(
+        random.choice(constant.place_data["Humiliation_Room"])
+    )
+    general_movement_module(character_id, to_humiliation_room)
+
+    # 如果和玩家位于同一地点，则输出提示信息
+    if character_data.position == cache.character_data[0].position:
+        now_draw = draw.NormalDraw()
+        now_draw.text = _("{0}打算去调教室\n").format(character_data.name)
         now_draw.draw()
 
 
@@ -1228,7 +1274,7 @@ def character_see_h_and_move_to_dormitory(character_id: int):
     character_id -- 角色id
     """
     # 如果是关闭了隔间门的房间的话，则不会被看到
-    if handle_premise.handle_place_door_open(character_id):
+    if handle_premise_place.handle_place_door_open(character_id):
         return
 
     character_data: game_type.Character = cache.character_data[character_id]
@@ -1285,22 +1331,29 @@ def character_play_instrument(character_id: int):
     character_data.state = constant.CharacterStatus.STATUS_PLAY_INSTRUMENT
 
 
-@handle_state_machine.add_state_machine(constant.StateMachine.ENTERTAIN_TRAINING)
-def character_training(character_id: int):
+@handle_state_machine.add_state_machine(constant.StateMachine.ENTERTAIN_READ)
+def character_entertain_read(character_id: int):
     """
-    角色战斗训练
+    角色娱乐：读书
     Keyword arguments:
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    character_data.target_character_id = character_id
-    character_data.behavior.behavior_id = constant.Behavior.TRAINING
-    character_data.behavior.duration = 120
-    character_data.state = constant.CharacterStatus.STATUS_TRAINING
+    # 检查是否要借书
+    basement.check_random_borrow_book(character_id)
+
+    for book_id_all in character_data.entertainment.borrow_book_id_set:
+        book_id = book_id_all
+    book_data = game_config.config_book[book_id]
+    character_data.behavior.behavior_id = constant.Behavior.READ_BOOK
+    character_data.state = constant.CharacterStatus.STATUS_READ_BOOK
+    character_data.behavior.book_id = book_id
+    character_data.behavior.book_name = book_data.name
+    character_data.behavior.duration = 30
 
 
 @handle_state_machine.add_state_machine(constant.StateMachine.ENTERTAIN_SINGING)
-def character_training(character_id: int):
+def character_entertain_singing(character_id: int):
     """
     娱乐：唱歌
     Keyword arguments:
@@ -1693,7 +1746,7 @@ def character_pee(character_id: int):
     character_data.behavior.behavior_id = constant.Behavior.PEE
     character_data.state = constant.CharacterStatus.STATUS_PEE
     character_data.behavior.duration = 5
-    if handle_premise.handle_urinate_ge_125(character_id) and handle_premise.handle_not_in_toilet(character_id) and character_data.position == cache.character_data[0].position:
+    if handle_premise.handle_urinate_ge_125(character_id) and handle_premise_place.handle_not_in_toilet(character_id) and character_data.position == cache.character_data[0].position:
         now_draw = draw.WaitDraw()
         now_draw.text = _("尿意达到了极限的{0}实在无法继续憋下去，被迫当场尿了出来\n").format(character_data.name)
         now_draw.draw()
@@ -1950,8 +2003,15 @@ def character_get_chara_normal_cloth_and_day_equip(character_id: int):
     Keyword arguments:
     character_id -- 角色id
     """
-    clothing.get_npc_cloth(character_id)
+    clothing.get_cloth_from_dormitory_locker(character_id)
     default.handle_adjust_body_manage_day_item(character_id, 1, game_type.CharacterStatusChange, datetime.datetime)
+    character_data: game_type.Character = cache.character_data[character_id]
+    character_data.target_character_id = character_id
+    character_data.behavior.behavior_id = constant.Behavior.WAIT
+    character_data.behavior.duration = 1
+    character_data.state = constant.CharacterStatus.STATUS_ARDER
+    # 记录起床
+    character_data.action_info.wake_time = cache.game_time
 
 
 @handle_state_machine.add_state_machine(constant.StateMachine.RESET_SHOWER_STATUS_AND_GET_NORMAL_CLOTH)
@@ -2115,11 +2175,11 @@ def character_buy_rand_food_at_foodshop(character_id: int):
     # 在食堂购买
     if character_data.action_info.eat_food_restaurant == -1:
         # 获取所有食物id
-        for food_id in cache.dining_hall_data:
-            if not len(cache.dining_hall_data[food_id]):
+        for food_id in cache.rhodes_island.dining_hall_data:
+            if not len(cache.rhodes_island.dining_hall_data[food_id]):
                 continue
-            for food_uid in cache.dining_hall_data[food_id]:
-                now_food: game_type.Food = cache.dining_hall_data[food_id][food_uid]
+            for food_uid in cache.rhodes_island.dining_hall_data[food_id]:
+                now_food: game_type.Food = cache.rhodes_island.dining_hall_data[food_id][food_uid]
                 # if now_food.eat:
                 new_food_list.append(food_id)
                 break
@@ -2129,13 +2189,13 @@ def character_buy_rand_food_at_foodshop(character_id: int):
             return
         # 随机选一个食物id
         now_food_id = random.choice(new_food_list)
-        now_food = cache.dining_hall_data[now_food_id][
-            random.choice(list(cache.dining_hall_data[now_food_id].keys()))
+        now_food = cache.rhodes_island.dining_hall_data[now_food_id][
+            random.choice(list(cache.rhodes_island.dining_hall_data[now_food_id].keys()))
         ]
         # 加入背包
         character_data.food_bag[now_food.uid] = now_food
         # 删除食堂中的食物
-        del cache.dining_hall_data[now_food_id][now_food.uid]
+        del cache.rhodes_island.dining_hall_data[now_food_id][now_food.uid]
     # 在指定餐厅购买
     else:
         restaurant_id = character_data.action_info.eat_food_restaurant
@@ -2750,23 +2810,53 @@ def character_work_deal_with_diplomacy(character_id: int):
     character_data.state = constant.CharacterStatus.STATUS_DEAL_WITH_DIPLOMACY
 
 
-@handle_state_machine.add_state_machine(constant.StateMachine.ENTERTAIN_READ)
-def character_entertain_read(character_id: int):
+@handle_state_machine.add_state_machine(constant.StateMachine.WORK_SEX_EXERCISES)
+def character_work_sex_exercises(character_id: int):
     """
-    角色娱乐：读书
+    工作：性爱练习
     Keyword arguments:
     character_id -- 角色id
     """
     character_data: game_type.Character = cache.character_data[character_id]
-    # 检查是否要借书
-    basement.check_random_borrow_book(character_id)
+    character_data.target_character_id = character_id
+    # 从目前的性爱练习列表中随机选一个
+    exercises_list = []
+    for i in range(30,40):
+        if i in character_data.body_manage and character_data.body_manage[i]:
+            status_id = i + 650
+            exercises_list.append(status_id)
+    # 赋予行为
+    if len(exercises_list):
+        now_exercises = random.choice(exercises_list)
+        character_data.behavior.duration = 30
+        character_data.behavior.behavior_id = now_exercises
+        character_data.state = now_exercises
 
-    for book_id_all in character_data.entertainment.borrow_book_id_set:
-        book_id = book_id_all
-    book_data = game_config.config_book[book_id]
-    character_data.behavior.behavior_id = constant.Behavior.READ_BOOK
-    character_data.state = constant.CharacterStatus.STATUS_READ_BOOK
-    character_data.behavior.book_id = book_id
-    character_data.behavior.book_name = book_data.name
-    character_data.behavior.duration = 30
+
+@handle_state_machine.add_state_machine(constant.StateMachine.WORK_COMBAT_TRAINING)
+def character_combat_training(character_id: int):
+    """
+    角色战斗训练
+    Keyword arguments:
+    character_id -- 角色id
+    """
+    character_data: game_type.Character = cache.character_data[character_id]
+    character_data.target_character_id = character_id
+    character_data.behavior.behavior_id = constant.Behavior.TRAINING
+    character_data.behavior.duration = 120
+    character_data.state = constant.CharacterStatus.STATUS_TRAINING
+
+
+@handle_state_machine.add_state_machine(constant.StateMachine.WORK_FITNESS_TRAINING)
+def character_fitness_training(character_id: int):
+    """
+    角色健身锻炼
+    Keyword arguments:
+    character_id -- 角色id
+    """
+    character_data: game_type.Character = cache.character_data[character_id]
+    character_data.target_character_id = character_id
+    character_data.behavior.behavior_id = constant.Behavior.EXERCISE
+    character_data.behavior.duration = 60
+    character_data.state = constant.CharacterStatus.STATUS_EXERCISE
 

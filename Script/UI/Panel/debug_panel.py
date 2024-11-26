@@ -29,7 +29,7 @@ class Debug_Panel:
         """初始化绘制对象"""
         self.width: int = width
         """ 绘制的最大宽度 """
-        self.now_panel = _("全局变量")
+        self.now_panel = _("常用更改")
         """ 当前绘制的页面 """
         self.draw_list: List[draw.NormalDraw] = []
         """ 绘制的文本列表 """
@@ -38,7 +38,7 @@ class Debug_Panel:
         """绘制对象"""
 
         title_text = "debug面板"
-        department_type_list = [_("全局变量"),_("常用更改"),_("NPC角色")]
+        department_type_list = [_("常用更改"),_("全局变量"),_("NPC角色")]
 
         title_draw = draw.TitleLineDraw(title_text, self.width)
 
@@ -123,7 +123,8 @@ class Debug_Panel:
             elif self.now_panel == "常用更改":
 
                 all_info_draw = draw.NormalDraw()
-                all_info_text = "玩家的各项属性"
+                all_info_text = _("！！！特别注意事项！！！\n！debug前请一定要进行存档备份，不正确和过大的数值修改可能会出现数据超限、跳过中间值结算、数据类型错误和长度错误等问题\n！这些问题会导致游戏的部分结算和功能无法运行和使用，进而坏档\n！总之请一定要进行存档备份，存档数据很珍贵的，坏档了就太痛了\n！！！特别注意事项！！！\n\n")
+                all_info_text += _("玩家的各项属性")
                 all_info_draw.text = all_info_text
                 all_info_draw.width = self.width
                 now_draw.draw_list.append(all_info_draw)
@@ -151,6 +152,7 @@ class Debug_Panel:
                 draw_text_list.append(f"[014]:重置文职部的招募数据")
                 draw_text_list.append(f"[015]:交互对象全部位快感增加")
                 draw_text_list.append(f"[016]:招募指定adv_id的干员")
+                draw_text_list.append(f"[017]:重置全角色娱乐")
 
 
                 for i in range(len(draw_text_list)):
@@ -604,6 +606,12 @@ class Debug_Panel:
                         info_draw.text = _("\n已招募过\n")
                     info_draw.draw()
                     line_feed.draw()
+                # 重置全角色娱乐
+                elif key_index == 17:
+                    from Script.Design import character_behavior
+                    cache.npc_id_got.discard(0)
+                    for chara_id in cache.npc_id_got:
+                        character_behavior.get_chara_entertainment(chara_id)
 
             line_feed.draw()
             # back_draw = draw.CenterButton(_("[返回]"), _("返回"), window_width)

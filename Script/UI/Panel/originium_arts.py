@@ -64,8 +64,8 @@ def evaluate_hypnosis_completion(character_id: int):
         return 1
     # 未完成催眠
     else:
-        now_draw = draw.WaitDraw()
-        draw_text = _("\n当前目标的催眠深度未达到{0}%，无法进入{1}催眠状态，需要使用基础手段来加深催眠程度\n").format(hypnosis_degree_need, game_config.config_hypnosis_type[now_hypnosis_type].name)
+        now_draw = draw.NormalDraw()
+        draw_text = _("\n{0}的催眠深度未达到{1}%，无法进入{2}催眠状态，需要切换更低的催眠模式或加深催眠程度\n").format(character_data.name, hypnosis_degree_need, game_config.config_hypnosis_type[now_hypnosis_type].name)
         now_draw.text = draw_text
         now_draw.draw()
         return 0
@@ -782,11 +782,14 @@ class Chose_Hypnosis_Type_Panel:
             return_list = []
             title_draw.draw()
             pl_character_data: game_type.Character = cache.character_data[0]
+            target_character_data: game_type.Character = cache.character_data[pl_character_data.target_character_id]
 
             info_draw = draw.NormalDraw()
             info_text = ""
 
             info_text += _("\n○进行催眠时会消耗理智，催眠结束后会自动合理化催眠过程中的记忆，未被催眠的干员也不会对催眠中的行为起疑\n")
+            if pl_character_data.target_character_id > 0:
+                info_text += _("○当前催眠对象：{0}，催眠深度：{1}%\n").format(target_character_data.name, target_character_data.hypnosis.hypnosis_degree)
             info_text += _("\n催眠系能力：\n")
             # 催眠能力
             info_draw.text = _(info_text)
@@ -813,8 +816,14 @@ class Chose_Hypnosis_Type_Panel:
                 draw_text = f"  [{hypnosis_type_data.name}]"
                 draw_text += _("(需要[{0}]，且催眠深度达到{1}%)").format(game_config.config_talent[hypnosis_type_data.talent_id].name, hypnosis_type_data.hypnosis_degree)
                 draw_text += f"：{hypnosis_type_data.introduce}"
-                # 已解锁则绘制按钮
-                if pl_character_data.talent[hypnosis_type_data.talent_id]:
+                # 已解锁则绘制按钮，需要已有该能力，且当前没有对象，或有对象且该对象催眠深度达到要求
+                if (
+                    pl_character_data.talent[hypnosis_type_data.talent_id] 
+                    and (
+                        pl_character_data.target_character_id == 0 or 
+                         (pl_character_data.target_character_id > 0 and target_character_data.hypnosis.hypnosis_degree >= hypnosis_type_data.hypnosis_degree)
+                         )
+                    ):
                     button_draw = draw.LeftButton(
                         _(draw_text),
                         _(hypnosis_type_data.name),

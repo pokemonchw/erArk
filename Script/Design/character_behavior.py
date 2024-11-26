@@ -17,6 +17,7 @@ from Script.Design import (
     game_time,
     character,
     handle_premise,
+    handle_premise_place,
     event,
     talk,
     map_handle,
@@ -80,6 +81,10 @@ def init_character_behavior():
         if cache.game_time.day != cache.pre_game_time.day and new_day_flag:
             new_day_flag = False
             update_new_day()
+        # 玩家睡觉存档
+        if cache.pl_sleep_save_flag:
+            cache.pl_sleep_save_flag = False
+            update_save()
         # 结束循环
         if len(cache.over_behavior_character) >= len(id_list) + 1:
             break
@@ -90,8 +95,8 @@ def update_cafeteria():
     max_people = len(cache.npc_id_got)
     # food_judge = 1
     food_count = 0
-    for food_type in cache.dining_hall_data:
-        food_list: Dict[UUID, game_type.Food] = cache.dining_hall_data[food_type]
+    for food_type in cache.rhodes_island.dining_hall_data:
+        food_list: Dict[UUID, game_type.Food] = cache.rhodes_island.dining_hall_data[food_type]
         food_count += len(food_list)
     #     for food_id in food_list:
     #         food: game_type.Food = food_list[food_id]
@@ -169,7 +174,7 @@ def character_behavior(character_id: int, now_time: datetime.datetime, pl_start_
     # 再处理NPC部分
     if character_id:
         # if character_data.name == "阿米娅":
-        #     print(f"debug 前：{character_data.name}，behavior_id = {game_config.config_status[character_data.state].name}，start_time = {character_data.behavior.start_time}, game_time = {now_time}")
+        # print(f"debug 前：{character_data.name}，behavior_id = {game_config.config_status[character_data.state].name}，start_time = {character_data.behavior.start_time}, game_time = {now_time}")
         # 空闲状态下寻找、执行、结算可用行动
         if character_data.state == constant.CharacterStatus.STATUS_ARDER:
             # 寻找可用行动
@@ -187,10 +192,10 @@ def character_behavior(character_id: int, now_time: datetime.datetime, pl_start_
         # 判断是否需要打断角色的当前行动
         judge_interrupt_character_behavior(character_id)
         time_judge = judge_character_status_time_over(character_id, now_time)
-        if time_judge or character_data.state == constant.CharacterStatus.STATUS_WAIT:
+        if time_judge:
             cache.over_behavior_character.add(character_id)
         # if character_data.name == "阿米娅":
-        #     print(f"debug 后：{character_data.name}，time_judge = {time_judge}，behavior_id = {game_config.config_status[character_data.state].name}，start_time = {character_data.behavior.start_time}, game_time = {now_time}")
+            # print(f"debug 后：{character_data.name}，time_judge = {time_judge}，behavior_id = {game_config.config_status[character_data.state].name}，start_time = {character_data.behavior.start_time}, game_time = {now_time}, duration = {character_data.behavior.duration}, end_time = {game_time.get_sub_date(minute=character_data.behavior.duration, old_date=character_data.behavior.start_time)}")
 
     # 自动获得对应素质和能力
     handle_talent.gain_talent(character_id,now_gain_type = 0)
@@ -511,12 +516,20 @@ def judge_character_status_time_over(character_id: int, now_time: datetime.datet
     add_time = (end_time.timestamp() - start_time.timestamp()) / 60
     # if character_data.name == "阿米娅":
     #     print(f"debug {character_data.name}的time_judge = {time_judge}，add_time = {add_time}")
+    # 如果本次行动的持续时间为0
     if not add_time:
+        # 如果是H状态，则直接可以跳出
+        if handle_premise.handle_is_h(character_id):
+            return 1
         character_data.behavior = game_type.Behavior()
         character_data.behavior.start_time = now_time
         character_data.behavior.duration = 1
+        # 等待状态下则不转为空闲状态，直接跳出
+        if character_data.state == constant.CharacterStatus.STATUS_WAIT:
+            return 1
         character_data.state = constant.CharacterStatus.STATUS_ARDER
-        return 1
+        # print(f"debug {character_data.name}的add_time = 0，已重置为当前时间：start_time = {character_data.behavior.start_time}")
+        return 0
     if end_now:
         time_judge = end_now
     if time_judge:
@@ -856,7 +869,7 @@ def judge_character_h_obscenity_unconscious(character_id: int) -> int:
         character_data.target_character_id = character_id
 
     # 如果不在同一位置
-    if handle_premise.handle_not_in_player_scene(character_id):
+    if handle_premise_place.handle_not_in_player_scene(character_id):
 
         # 如果不在同一位置，则结束H状态和无意识状态
         if character_data.sp_flag.is_h:
@@ -990,7 +1003,7 @@ def update_sleep():
 
 
     # 非角色部分
-    update_save()
+    cache.pl_sleep_save_flag = True
 
 
 def update_new_day():
@@ -1001,7 +1014,7 @@ def update_new_day():
     Return arguments:
     无
     """
-    from Script.Design import basement
+    from Script.Design import basement, clothing
     from Script.UI.Panel import nation_diplomacy_panel, navigation_panel
 
     now_draw = draw.NormalDraw()
@@ -1056,7 +1069,7 @@ def update_save():
     """
     from Script.Core import save_handle
 
-    now_draw = draw.NormalDraw()
+    now_draw = draw.WaitDraw()
     now_draw.width = window_width
     now_draw.text = _("\n全部结算完毕，开始自动保存\n")
     # 播放一条提示信息
@@ -1105,18 +1118,25 @@ def character_aotu_change_value(character_id: int, now_time: datetime.datetime, 
 
     # 休息时回复体力、气力
     if now_character_data.state == constant.CharacterStatus.STATUS_REST:
+        final_adjust = 1
         # 休息室等级对回复效果的影响
         now_level = cache.rhodes_island.facility_level[31]
         facility_cid = game_config.config_facility_effect_data[_("休息室")][int(now_level)]
         facility_effect = game_config.config_facility_effect[facility_cid].effect
         facility_effect_adjust = 1 + facility_effect / 100
+        final_adjust *= facility_effect_adjust
+        # 素质对回复效果的影响
+        if now_character_data.talent[351]: # 回复慢
+            final_adjust *= 0.7
+        elif now_character_data.talent[352]: # 回复快
+            final_adjust *= 1.5
         # 回复体力、气力
         hit_point_add_base = now_character_data.hit_point_max * 0.003 + 10
-        hit_point_add = int(hit_point_add_base * true_add_time * facility_effect_adjust)
+        hit_point_add = int(hit_point_add_base * true_add_time * final_adjust)
         now_character_data.hit_point += hit_point_add
         now_character_data.hit_point = min(now_character_data.hit_point, now_character_data.hit_point_max)
         mana_point_add_base = now_character_data.mana_point_max * 0.006 + 20
-        mana_point_add = int(mana_point_add_base * true_add_time * facility_effect_adjust)
+        mana_point_add = int(mana_point_add_base * true_add_time * final_adjust)
         now_character_data.mana_point += mana_point_add
         now_character_data.mana_point = min(now_character_data.mana_point, now_character_data.mana_point_max)
 
@@ -1138,13 +1158,19 @@ def character_aotu_change_value(character_id: int, now_time: datetime.datetime, 
         # 最高上限100
         now_character_data.sleep_point = min(now_character_data.sleep_point,100)
         # print(f"debug {now_character_data.name}疲劳值-{tired_change}={now_character_data.tired_point}，熟睡值+{add_sleep}={now_character_data.sleep_point}，当前时间={cache.game_time}")
+        final_adjust = 1
+        # 素质对回复效果的影响
+        if now_character_data.talent[351]: # 回复慢
+            final_adjust *= 0.7
+        elif now_character_data.talent[352]: # 回复快
+            final_adjust *= 1.5
         # 回复体力、气力
         hit_point_add_base = now_character_data.hit_point_max * 0.0025 + 3
-        hit_point_add = int(hit_point_add_base * true_add_time)
+        hit_point_add = int(hit_point_add_base * true_add_time * final_adjust)
         now_character_data.hit_point += hit_point_add
         now_character_data.hit_point = min(now_character_data.hit_point, now_character_data.hit_point_max)
         mana_point_add_base = now_character_data.mana_point_max * 0.005 + 6
-        mana_point_add = int(mana_point_add_base * true_add_time)
+        mana_point_add = int(mana_point_add_base * true_add_time * final_adjust)
         now_character_data.mana_point += mana_point_add
         now_character_data.mana_point = min(now_character_data.mana_point, now_character_data.mana_point_max)
 
@@ -1161,6 +1187,18 @@ def character_aotu_change_value(character_id: int, now_time: datetime.datetime, 
     add_hunger = random.randint(int(true_add_time * 0.8), int(true_add_time * 1.2))
     now_character_data.hunger_point += add_hunger
     now_character_data.hunger_point = min(now_character_data.hunger_point,240)
+
+    # 结算有意识状态下，不穿胸衣和内裤时的羞耻值增加
+    exposure_adjust = 0
+    if handle_premise.handle_unconscious_flag_0(character_id):
+        if handle_premise.handle_not_wear_bra(character_id):
+            exposure_adjust += 1
+        if handle_premise.handle_not_wear_pan(character_id):
+            exposure_adjust += 2
+    if exposure_adjust:
+        feel_adjust = attr_calculation.get_ability_adjust(now_character_data.ability[34])
+        exposure_add = true_add_time * feel_adjust * exposure_adjust * 4
+        now_character_data.status_data[16] += exposure_add
 
     # print(f"debug character_id = {character_id}，target_character_id = {player_character_data.target_character_id}，now_character_data.hunger_point = {now_character_data.hunger_point}")
 
@@ -1282,7 +1320,7 @@ def judge_weak_up_in_sleep_h(character_id: int):
         # 对方获得睡奸醒来状态
         target_data.sp_flag.sleep_h_awake = True
         # 重置双方H结构体和相关数据
-        default.handle_both_h_state_reset(0, 0, game_type.CharacterStatusChange, datetime.datetime)
+        default.handle_both_h_state_reset(0, 1, game_type.CharacterStatusChange, datetime.datetime)
         # 检测是否满足高级性骚扰的实行值需求
         if handle_premise.handle_instruct_judge_high_obscenity(0):
             # 如果已经陷落的话
@@ -1410,9 +1448,14 @@ def get_chara_entertainment(character_id: int):
         if hasattr(cache.rhodes_island, 'party_day_of_week') and cache.rhodes_island.party_day_of_week[week_day]:
             for i in range(3):
                 character_data.entertainment.entertainment_type[i] = cache.rhodes_island.party_day_of_week[week_day]
-        
+
         # 否则随机当天的娱乐活动
         else:
+            # 幼女只能进行过家家的娱乐活动
+            if handle_premise.handle_self_is_child(character_id):
+                for i in range(3):
+                    character_data.entertainment.entertainment_type[i] = 151
+                return
             entertainment_list = [i for i in game_config.config_entertainment]
             entertainment_list.remove(0)
             # 循环获得上午、下午、晚上的三个娱乐活动
@@ -1425,6 +1468,13 @@ def get_chara_entertainment(character_id: int):
                     entertainment_data = game_config.config_entertainment[choice_entertainment_id]
                     # if choice_entertainment_id in {92, 151}:
                     #     print(f"debug {character_data.name}: {choice_entertainment_id}")
+                    # 首先检查娱乐地点的场所是否开放
+                    if entertainment_data.palce in game_config.config_facility_open_name_set:
+                        facility_open_cid = game_config.config_facility_open_name_to_cid[entertainment_data.palce]
+                        # 如果该娱乐活动的场所未开放，则去掉该id后重新随机
+                        if cache.rhodes_island.facility_open[facility_open_cid] == 0:
+                            entertainment_list.remove(choice_entertainment_id)
+                            continue
                     # 检查该娱乐活动是否需要特定的条件
                     if entertainment_data.need == "无":
                         break
@@ -1436,11 +1486,6 @@ def get_chara_entertainment(character_id: int):
                         else:
                             need_data_list = need_data_all.split('&')
                         judge, reason = attr_calculation.judge_require(need_data_list, character_id)
-                        # 需要娱乐地点的场所是开放的
-                        if entertainment_data.palce in game_config.config_facility_open_name_set:
-                            facility_open_cid = game_config.config_facility_open_name_to_cid[entertainment_data.palce]
-                            if cache.rhodes_island.facility_open[facility_open_cid] == 0:
-                                judge = False
                         # 如果满足条件则选择该娱乐活动，否则去掉该id后重新随机
                         if judge:
                             break
@@ -1456,18 +1501,14 @@ def get_chara_entertainment(character_id: int):
 def fall_chara_give_pink_voucher(character_id: int):
     """
     陷落角色给予粉红凭证\n
-    Keyword arguments:
+    Keyword arguments:\n
     character_id -- 角色id
     """
-    character_data: game_type.Character = cache.character_data[character_id]
     # 如果已陷落则给予粉红凭证
-    if character_data.talent[201] or character_data.talent[211]:
-        cache.rhodes_island.week_fall_chara_pink_certificate_add += 20
-    elif character_data.talent[202] or character_data.talent[212]:
-        cache.rhodes_island.week_fall_chara_pink_certificate_add += 40
-    elif character_data.talent[203] or character_data.talent[213]:
-        cache.rhodes_island.week_fall_chara_pink_certificate_add += 60
-    elif character_data.talent[204] or character_data.talent[214]:
+    character_fall_level = attr_calculation.get_character_fall_level(character_id)
+    if character_fall_level <= 3:
+        cache.rhodes_island.week_fall_chara_pink_certificate_add += character_fall_level * 20
+    else:
         cache.rhodes_island.week_fall_chara_pink_certificate_add += 100
 
 
@@ -1496,7 +1537,7 @@ def sanity_point_grow():
 def judge_same_position_npc_follow():
     """
     判断同位置的NPC是否跟随玩家\n
-    Keyword arguments:
+    Keyword arguments:\n
     无
     """
     pl_character_data: game_type.Character = cache.character_data[0]
